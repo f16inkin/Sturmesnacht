@@ -1,8 +1,38 @@
+/**
+ * Preparation
+ */
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 
-Vue.config.productionTip = false
+/**
+ * Axios
+ */
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+Vue.use(VueAxios, axios);
+
+/**
+ * Font Awesome
+ */
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+library.add(fas);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+/**
+ * Bootstrap
+ */
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue);
+
+/**
+ * Start
+ */
+Vue.config.productionTip = false;
 
 new Vue({
   router,

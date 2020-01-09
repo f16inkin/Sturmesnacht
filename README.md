@@ -1,4 +1,4 @@
-# proj
+# Sturmesnacht
 
 ## Project setup
 ```

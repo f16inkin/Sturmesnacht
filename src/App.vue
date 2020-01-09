@@ -1,32 +1,59 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div id="wrapper">
+    <section id="header_section"></section>
+    <section id="main_section">
+      <section id="sidebar_section">
+        <Menu></Menu>
+      </section>
+      <section id="content_section">
+        <!--Выводится контент-->
+        <router-view/>
+      </section>
+    </section>
+    <section id="footer_section"></section>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  html, body {
+    margin:0;
+    padding:0;
+  }
+  #header_section{
+    height: 50px;
+    background-color: grey;
+  }
+  #main_section{
+    background-color: #6f42c1;
+    color: royalblue;
+  }
+  #footer_section{
+    height: 200px;
+    background-color: #0b2e13;
+  }
+  #sidebar_section{
+    width: 270px;
+    background-color: #37474f;
+    float: left;
+    height: calc(100vh - 50px);
+  }
+  #content_section{
+    width: 100%;
+    min-height: calc(100vh - 250px); /*Учитывая размер хидера, должен отнять*/
+    background-color: white;
+  }
+  .module-wrapper{
+    background-color: #eeeeee;
+    border: solid 1px;
+    border-color: #c1c1c1;
+    border-radius: 10px;
+    width: 100%;
+    padding: 15px;
+  }
 </style>
+<script>
+  import Menu from "./components/HeadMenu/Menu";
+  export default {
+    components: {Menu}
+  }
+</script>
