@@ -3,7 +3,7 @@
     <section id="header_section"></section>
     <section id="main_section">
       <section id="sidebar_section">
-        <Menu></Menu>
+        <Sidebar></Sidebar>
       </section>
       <section id="content_section">
         <!--Выводится контент-->
@@ -52,8 +52,8 @@
   }
 </style>
 <script>
-  import Menu from "./components/HeadMenu/Menu";
+  import Sidebar from "./components/Sidebar/Sidebar";
   export default {
-    components: {Menu}
+    components: {Sidebar}
   }
 </script>

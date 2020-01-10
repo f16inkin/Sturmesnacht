@@ -1,5 +1,5 @@
 <template>
-    <h1>Рабочий стол приложения</h1>
+    
 </template>
 
 <script>
