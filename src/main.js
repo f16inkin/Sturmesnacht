@@ -30,6 +30,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue);
 
 /**
+ * Input Mask
+ */
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask);
+
+/**
  * Start
  */
 Vue.config.productionTip = false;

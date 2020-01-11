@@ -24,22 +24,22 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'id-card']"/></div>
                 </div>
-                <input type="text" class="form-control" id="card-number" name="card-number" placeholder="Номер карты" disabled>
+                <input type="text" class="form-control" id="card-number" name="card-number" placeholder="Номер карты" :disabled="disabledInput">
             </div>
             <label  for="full-name">ФИО<span class="red-asterisk">*</span>:</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'user-circle']"/></div>
                 </div>
-                <input type="text" class="form-control" id="full-name" name="full-name" placeholder="ФИО" :value="surname + ' ' + firstName + ' ' + secondName" disabled>
+                <input type="text" class="form-control" id="full-name" name="full-name" placeholder="ФИО" :value="surname + ' ' + firstName + ' ' + secondName" :disabled="disabledInput">
             </div>
             <label  for="gender">Пол:</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'venus-mars']"/></div>
                 </div>
-                <select id="gender" name="gender" class="custom-select" disabled>
-
+                <select :value="genderId" id="gender" name="gender" class="custom-select" :disabled="disabledInput">
+                    <option v-for="gender in genders" :value="gender.id">{{gender.name}}</option>
                 </select>
             </div>
             <label  for="date-birth">Дата рождения<span class="red-asterisk">*</span>:</label>
@@ -47,21 +47,21 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'birthday-cake']"/></div>
                 </div>
-                <input type="date" class="form-control" id="date-birth" name="date-birth" :value = "dateBirth" disabled>
+                <input type="date" class="form-control" id="date-birth" name="date-birth" :value = "dateBirth" :disabled="disabledInput">
             </div>
             <label  for="telephone">Номер телефона:</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'phone']"/></div>
                 </div>
-                <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Номер телефона" :value = "telephone" disabled>
+                <input type="text" v-mask="'8(###)###-##-##'" class="form-control" id="telephone" name="telephone" placeholder="Номер телефона" :value = "telephone" :disabled="disabledInput">
             </div>
             <label  for="email">Электронная почта:</label>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'envelope']"/></div>
                 </div>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Email" :value="email" disabled>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Email" :value="email" :disabled="disabledInput">
             </div>
         </div>
     </div>
@@ -70,7 +70,16 @@
 <script>
     export default {
         name: "PersonalData",
-        props:['surname', 'firstName', 'secondName', 'dateBirth', 'telephone', 'email'],
+        props:['surname', 'firstName', 'secondName', 'genderId', 'dateBirth', 'telephone', 'email', 'disabledInput'],
+        data() {
+            return {
+                selected: '',
+                genders: [
+                    {id: 1, name: 'Мужчина'},
+                    {id: 2, name: 'Женщина'},
+                ]
+            }
+        },
     }
 </script>
 

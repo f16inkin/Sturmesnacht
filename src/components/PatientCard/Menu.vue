@@ -2,7 +2,9 @@
     <div class="row">
         <div id="buttons" class="col-6">
             <div class="row">
-                <div id="card-control-buttons" class="col-8"></div>
+                <div id="card-control-buttons" class="col-8">
+                    <button class="btn btn-primary" @click="removeDisabled">Remove disabled</button>
+                </div>
                 <div id="card-auxiliary-buttons" class="col-4"></div>
             </div>
         </div>
@@ -25,10 +27,23 @@
 
 <script>
     export default {
-        name: "Menu"
+        name: "Menu",
+        methods: {
+            removeDisabled: function(){
+                this.$emit('removeDisabled', {name: 'Name', surname: 'Surname'});
+            },
+        }
     }
 </script>
 
 <style scoped>
-
+ #card-auxiliary-buttons{
+     padding: 2px;
+     text-align: right;
+     height: 37px;
+     background: #eeeeee;
+     border-radius: 5px;
+     border: solid 1px;
+     border-color: #dce1e5;
+ }
 </style>
