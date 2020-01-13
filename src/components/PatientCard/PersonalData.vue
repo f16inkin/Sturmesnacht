@@ -24,7 +24,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'id-card']"/></div>
                 </div>
-                <input type="text" class="form-control" id="card-number" name="card-number" placeholder="Номер карты" :disabled="disabledInput">
+                <input type="text" class="form-control" id="card-number" name="card-number" placeholder="Номер карты" :value="cardNumber" :disabled="disabledInput">
             </div>
             <label  for="full-name">ФИО<span class="red-asterisk">*</span>:</label>
             <div class="input-group mb-2">
@@ -70,7 +70,7 @@
 <script>
     export default {
         name: "PersonalData",
-        props:['surname', 'firstName', 'secondName', 'genderId', 'dateBirth', 'telephone', 'email', 'disabledInput'],
+        props:['cardNumber', 'surname', 'firstName', 'secondName', 'genderId', 'dateBirth', 'telephone', 'email', 'disabledInput'],
         data() {
             return {
                 selected: '',

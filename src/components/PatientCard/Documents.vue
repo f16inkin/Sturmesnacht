@@ -1,7 +1,7 @@
 <template>
     <div class="patient-card-information-section box-shadow--2dp">
         <div class="patient-card-information-section-header">
-            <i class="fa fa-folder" aria-hidden="true"></i> Документы
+            <font-awesome-icon  class="fa-for-menu" :icon="['fas', 'folder']"/> Документы
         </div>
         <div class='patient-card-information-section-body'>
             <label for="insurance-certificate">СНИЛС<span class="red-asterisk">*</span>:</label>
