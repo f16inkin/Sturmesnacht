@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row" style="padding: 10px">
             <div class="module-wrapper">
-                <div id="patient-card-menu"><Menu @editCard="editCard"></Menu></div>
+                <div id="patient-card-menu"><Menu @editCard="editCard" @saveCard="saveCard"></Menu></div>
                 <div id="patient-card-body">
                     <div class="row">
                         <div id="personal-data-section" class="col-3">
@@ -73,8 +73,8 @@
         name: "PatientCard",
         components: {Additionally, Menu, PersonalData, Documents, Addresses},
         methods: {
-            getContacts: function(){
-                return axios.get(`${apiUrl}/app/patient-card/get/1`)
+            getCard: function(){
+                return axios.get(`${apiUrl}/app/patient-card/get/${this.cardId}`)
                     .then(function (response) {
                         return response.data.card_data;
 
@@ -89,14 +89,18 @@
                  * Если нет, то можно ставить disabledInput в false
                  * Тогл тут не будет к месту
                  */
-                console.log(object.name);
-                console.log(object.surname);
-                this.surname = object.surname;
+                //console.log(object.name);
+                //console.log(object.surname);
+                //this.surname = object.surname;
+                this.disabledInput = !this.disabledInput;
+            },
+            saveCard: function(){
                 this.disabledInput = !this.disabledInput;
             }
         },
         data() {
             return {
+                cardId: '',
                 cardNumber: '',
                 surname: '',
                 firstName: '',
@@ -127,13 +131,20 @@
                 profession: '',
                 notationText: '',
                 disabledInput: true
+                /**
+                 * Касаемо смены видов
+                 */
+                currentView: ''
+
             }
         },
         created: function(){
-            //document.title = 'Карта пациента';
+            let cardId = this.$route.params.id;
+            this.cardId = cardId;
+            console.log(this.$route.params.id);
         },
         mounted: function () {
-            this.getContacts().then(data => {
+            this.getCard().then(data => {
                 console.log(data);
                 this.cardNumber = data.cardNumber;
                 this.surname = data.surname;

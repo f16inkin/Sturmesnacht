@@ -13,8 +13,8 @@ const routes = [
     meta: {title: 'Рабочий стол'}
   },
   {
-    path: '/patient-card',
-    name: 'patient-card',
+    path: '/app/patient-card/get/:id',
+    name: 'getCard',
     component: PatientCard,
     meta: {title: 'Карта пациента'}
   }
@@ -27,7 +27,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(to.meta.anotherMeta);
   document.title = to.meta.title;
   next()
 });

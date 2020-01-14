@@ -5,12 +5,9 @@
                 <div id="card-control-buttons" class="col-8">
                     <span v-for="button in buttons">
                         <transition name="fade">
-                            <button  v-show="button.show" class="btn btn-dark btn-sm mr-1" @click="button.action(button)" :disabled="button.disable" :style="{display:button.display}"><font-awesome-icon  class="fa-for-menu" :icon="['fas', button.icon]"/> {{button.title}}</button>
+                            <button  v-show="button.show" :class="button.class" @click="button.action" :disabled="button.disable"><font-awesome-icon  class="fa-for-menu" :icon="['fas', button.icon]"/> {{button.title}}</button>
                         </transition>
                     </span>
-
-                    <!--<button class="btn btn-dark btn-sm mr-1"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'plus-circle']"/> Создать</button>
-                    <button class="btn btn-dark btn-sm" @click="editCard"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'edit']"/> Изменить</button>-->
                 </div>
                 <div id="card-auxiliary-buttons" class="col-4"></div>
             </div>
@@ -36,44 +33,49 @@
     export default {
         name: "Menu",
         methods: {
-            editCard: function(button){
+            editCard: function(){
                 this.$emit('editCard', {name: 'Name', surname: 'Surname'});
-                button.show = false;
+                this.editButton.show = false;
+                this.saveButton.show = true;
             },
             saveCard: function () {
-
+                this.editButton.show = true;
+                this.saveButton.show = false;
+                this.$emit('saveCard');
             }
         },
         data(){
             return {
-                buttons: [
-                    {
-                        title: 'Создать',
-                        icon: 'plus-circle',
-                        style: 'btn-dark',
-                        action: 'none',
-                        disable: false,
-                        show:true
-                    },
-                    {
-                        title: 'Изменить',
-                        icon: 'edit',
-                        style: 'btn-dark',
-                        action: this.editCard,
-                        disable: false,
-                        show:true
-                    },
-                    {
-                        title: 'Сохранить',
-                        icon: 'save',
-                        style: 'btn-success',
-                        action: this.saveCard,
-                        disable: false,
-                        show: true
-                    }
-                ]
+                createButton: {
+                    title: 'Создать',
+                    icon: 'plus-circle',
+                    class: 'btn btn-dark btn-sm mr-1',
+                    action: 'none',
+                    disable: false,
+                    show:true
+                },
+                editButton: {
+                    title: 'Изменить',
+                    icon: 'edit',
+                    class: 'btn btn-dark btn-sm mr-1',
+                    action: this.editCard,
+                    disable: false,
+                    show:true
+                },
+                saveButton: {
+                    title: 'Сохранить',
+                    icon: 'save',
+                    class: 'btn btn-success btn-sm mr-1',
+                    action: this.saveCard,
+                    disable: false,
+                    show: false
+                },
+                buttons:[]
             }
 
+        },
+        mounted: function () {
+            this.buttons = [this.createButton, this.editButton, this.saveButton];
         }
     }
 </script>
@@ -89,7 +91,7 @@
      border-color: #dce1e5;
  }
  .fade-enter-active, .fade-leave-active {
-     transition: opacity .5s;
+     transition: opacity .8s;
  }
  .fade-enter, .fade-leave-to {
      opacity: 0;

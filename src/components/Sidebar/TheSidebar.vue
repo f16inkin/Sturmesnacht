@@ -9,7 +9,7 @@
                     </router-link>
                 </li>
                 <li class="menu-item">
-                    <router-link to="/patient-card">
+                    <router-link :to="{name: 'getCard', params: {id:1}}">
                         <font-awesome-icon  class="fa-for-menu" :icon="['fas', 'id-card-alt']"/>
                         <span class="nav-text"> Patient Info</span>
                     </router-link>
