@@ -2,182 +2,41 @@
     <div class="container-fluid">
         <div class="row" style="padding: 10px">
             <div class="module-wrapper">
-                <div id="patient-card-menu"><Menu @editCard="editCard" @saveCard="saveCard"></Menu></div>
-                <div id="patient-card-body">
-                    <div class="row">
-                        <div id="personal-data-section" class="col-3">
-                            <PersonalData
-                                    :card-number="cardNumber"
-                                    :surname="surname"
-                                    :first-name="firstName"
-                                    :second-name="secondName"
-                                    :gender-id="genderId"
-                                    :date-birth="dateBirth"
-                                    :telephone="telephone"
-                                    :email="email"
-                                    :disabled-input="disabledInput"
-                            ></PersonalData>
-                        </div>
-                        <div id="documents-section" class="col-3">
-                            <Documents
-                                    :insurance-certificate="insuranceCertificate"
-                                    :policy-number="policyNumber"
-                                    :insurance-company-id="insuranceCompanyId"
-                                    :insurance-company="insuranceCompany"
-                                    :passport="passport"
-                                    :birth-certificate="birthCertificate"
-                                    :fms-department="fmsDepartment"
-                                    :registry-office="registryOffice"
-                                    :disabled-input="disabledInput"
-                            ></Documents>
-                        </div>
-                        <div id="addresses-section" class="col-3">
-                            <Addresses
-                                :region-name="regionName"
-                                :region-id="regionId"
-                                :district-id="districtId"
-                                :district-name="districtName"
-                                :locality-id="localityId"
-                                :locality-name="localityName"
-                                :street-id="streetId"
-                                :street-name="streetName"
-                                :house-number="houseNumber"
-                                :apartment-number="apartmentNumber"
-                                :disabled-input="disabledInput"
-                            ></Addresses>
-                        </div>
-                        <div id="additionally-section" class="col-3">
-                            <Additionally
-                                :workplace="workplace"
-                                :profession="profession"
-                                :notation-text="notationText"
-                                :disabled-input="disabledInput"
-                            ></Additionally>
-                        </div>
-                    </div>
-                </div>
+                <div id="patient-card-menu"><Menu @searchCards="searchCards"></Menu></div>
+                <div id="patient-card-body"><component :is="currentView"></component></div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios';
     import Menu from "../components/PatientCard/Menu";
-    import PersonalData from "../components/PatientCard/PersonalData";
-    import Documents from "../components/PatientCard/Documents";
-    import Addresses from "../components/PatientCard/Addresses";
-    import Additionally from "../components/PatientCard/Additionally";
-    const apiUrl = 'http://192.168.0.10';
+    import Card from "../components/PatientCard/Card";
+    import Search from "../components/PatientCard/Search";
     export default {
         name: "PatientCard",
-        components: {Additionally, Menu, PersonalData, Documents, Addresses},
+        components: {Menu, Card, Search},
         methods: {
-            getCard: function(){
-                return axios.get(`${apiUrl}/app/patient-card/get/${this.cardId}`)
-                    .then(function (response) {
-                        return response.data.card_data;
-
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
+          searchCards: function () {
+              this.currentView = 'Search';
+          }
+        },
+        /*methods: {
             editCard: function(object){
-                /**
-                 * Сначала проверка, на то не заблокированна ли карта?
-                 * Если нет, то можно ставить disabledInput в false
-                 * Тогл тут не будет к месту
-                 */
-                //console.log(object.name);
-                //console.log(object.surname);
-                //this.surname = object.surname;
                 this.disabledInput = !this.disabledInput;
             },
             saveCard: function(){
                 this.disabledInput = !this.disabledInput;
             }
-        },
+        },*/
         data() {
             return {
-                cardId: '',
-                cardNumber: '',
-                surname: '',
-                firstName: '',
-                secondName: '',
-                genderId: '',
-                dateBirth: '',
-                telephone: '',
-                email: '',
-                insuranceCertificate: '',
-                policyNumber: '',
-                insuranceCompanyId: '',
-                insuranceCompany: '',
-                passport: '',
-                fmsDepartment: '',
-                birthCertificate: '',
-                registryOffice: '',
-                regionName: '',
-                regionId: '',
-                districtName: '',
-                districtId: '',
-                localityId: '',
-                localityName: '',
-                streetId: '',
-                streetName: '',
-                houseNumber: '',
-                apartmentNumber: '',
-                workplace: '',
-                profession: '',
-                notationText: '',
-                disabledInput: true
                 /**
                  * Касаемо смены видов
                  */
-                currentView: ''
-
+                currentView: 'Card',
             }
-        },
-        created: function(){
-            let cardId = this.$route.params.id;
-            this.cardId = cardId;
-            console.log(this.$route.params.id);
-        },
-        mounted: function () {
-            this.getCard().then(data => {
-                console.log(data);
-                this.cardNumber = data.cardNumber;
-                this.surname = data.surname;
-                this.firstName = data.firstName;
-                this.secondName = data.secondName;
-                this.genderId = data.genderId;
-                this.dateBirth = data.dateBirth;
-                this.telephone = data.telephone;
-                this.email = data.email;
-                this.policyNumber = data.policyNumber;
-                this.insuranceCertificate = data.insuranceCertificate;
-                this.insuranceCompanyId = data.insuranceCompanyId;
-                this.insuranceCompany = data.insuranceCompany;
-                this.passport = data.passportSerial + ' ' + data.passportNumber;
-                this.fmsDepartment = data.fmsDepartment;
-                this.birthCertificate = data.birthCertificateSerial + ' ' + data.birthCertificateNumber;
-                this.registryOffice = data.registryOffice;
-                this.regionName = data.region;
-                this.regionId = data.regionId;
-                this.districtId = data.districtId;
-                this.districtName = data.district;
-                this.localityId = data.localityId;
-                this.localityName = data.locality;
-                this.streetId = data.streetId;
-                this.streetName = data.street;
-                this.houseNumber = data.houseNumber;
-                this.apartmentNumber = data.apartment;
-                this.workplace = data.workPlace;
-                this.profession = data.profession;
-                this.notationText = data.notation;
-            });
-
-        },
+        }
     }
 </script>
 

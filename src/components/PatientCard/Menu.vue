@@ -17,7 +17,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'search']"/> </div>
                 </div>
-                <input type="text" class="form-control" id="card-search" name="card-search" placeholder="Поиск">
+                <input type="text" class="form-control" name="card-search" placeholder="Поиск" @keyup.enter="searchCards">
                 <div class="input-group-append">
                     <div  class="input-group-text"><b>Найдено:</b></div>
                 </div>
@@ -30,18 +30,22 @@
 </template>
 
 <script>
+    import { bus } from "../../main";
     export default {
         name: "Menu",
         methods: {
             editCard: function(){
-                this.$emit('editCard', {name: 'Name', surname: 'Surname'});
+                bus.$emit('editCard', {name: 'Name1', surname: 'Surname', counter: 0});
                 this.editButton.show = false;
                 this.saveButton.show = true;
             },
             saveCard: function () {
+                bus.$emit('saveCard');
                 this.editButton.show = true;
                 this.saveButton.show = false;
-                this.$emit('saveCard');
+            },
+            searchCards: function () {
+                this.$emit('searchCards');
             }
         },
         data(){

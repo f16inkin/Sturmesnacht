@@ -72,7 +72,7 @@
 
 <script>
     export default {
-        name: "Documents",
+        name: "CardDocuments",
         props: ['insuranceCertificate', 'policyNumber', 'insuranceCompanyId', 'insuranceCompany',
             'passport', 'fmsDepartment', 'birthCertificate', 'registryOffice', 'disabledInput']
         /*props: {

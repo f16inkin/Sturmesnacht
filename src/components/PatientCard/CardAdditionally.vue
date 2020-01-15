@@ -33,7 +33,7 @@
 
 <script>
     export default {
-        name: "Additionally",
+        name: "CardAdditionally",
         props: ['workplace', 'profession', 'notationText', 'disabledInput']
     }
 </script>

@@ -40,6 +40,11 @@ Vue.use(VueTheMask);
  */
 Vue.config.productionTip = false;
 
+/**
+ * Шина событий
+ */
+export const bus = new Vue();
+
 new Vue({
   router,
   render: h => h(App)

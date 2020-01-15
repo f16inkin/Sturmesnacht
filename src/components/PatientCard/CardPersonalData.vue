@@ -69,7 +69,7 @@
 
 <script>
     export default {
-        name: "PersonalData",
+        name: "CardPersonalData",
         props:['cardNumber', 'surname', 'firstName', 'secondName', 'genderId', 'dateBirth', 'telephone', 'email', 'disabledInput'],
         data() {
             return {

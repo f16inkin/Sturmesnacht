@@ -66,7 +66,7 @@
 
 <script>
     export default {
-        name: "Addresses",
+        name: "CardAddresses",
         props: ['regionId', 'regionName', 'districtId', 'districtName', 'localityId', 'localityName', 'streetId',
             'streetName', 'houseNumber', 'apartmentNumber', 'disabledInput'],
     }
