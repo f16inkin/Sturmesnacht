@@ -176,11 +176,36 @@
                 this.profession = data.profession;
                 this.notationText = data.notation;
             });
-
         }
     }
 </script>
 
-<style scoped>
-
+<style>
+    .patient-card-information-section{
+        border: solid 1px;
+        background-color: white;
+        border-radius: 5px;
+        border-color: #dce1e5;
+    }
+    .box-shadow--2dp {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12)
+    }
+    .patient-card-information-section-header{
+        background-color: #37474F;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 5px;
+    }
+    .patient-card-information-section-body{
+        padding: 5px;
+        color: #37474f;
+        font-weight: bold;
+    }
+    .patient-card-status{
+        border: solid 1px;
+        padding: 3px;
+        text-align: center;
+        cursor: not-allowed;
+    }
 </style>
