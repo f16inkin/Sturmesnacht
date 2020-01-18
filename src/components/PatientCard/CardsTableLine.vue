@@ -1,14 +1,14 @@
 <template>
     <tr class="tr-table-content">
-        <td>{{line.surname}}</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
+        <td>{{card.surname + ' ' + card.firstname + ' ' + card.secondname}}</td>
+        <td>{{card.card_number}}</td>
+        <td>{{card.policy_number}}</td>
+        <td>{{card.insurance_certificate}}</td>
         <td><i class="" style="font-size: 18px;"></i></td>
         <td><i class="" style="font-size: 18px;"></i></td>
         <td>
-            <button class="btn btn-outline-success btn-sm">
-                <i class="fa fa-search"></i> Посмотреть
+            <button class="btn btn-outline-success btn-sm" @click="showCard">
+                <font-awesome-icon  class="fa-for-menu" :icon="['fas', 'search']"/> Посмотреть
             </button>
         </td>
     </tr>
@@ -17,7 +17,12 @@
 <script>
     export default {
         name: "CardsTableLine",
-        props: ['line']
+        props: ['card'],
+        methods: {
+            showCard:function () {
+                alert('Show Card' + this.card.id)
+            }
+        }
     }
 </script>
 

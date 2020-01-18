@@ -14,7 +14,7 @@
                 </tr>
                 </thead>
                 <tbody id="cards-data-table-content">
-                <cards-table-line v-for="card in cards" :line="card"></cards-table-line>
+                <cards-table-line v-for="card in cards" :key="card.id" :card="card"></cards-table-line>
                 </tbody>
             </table>
         </div>
@@ -28,6 +28,7 @@
     import CardsTableLine from '../../components/PatientCard/CardsTableLine';
     export default {
         name: "Cards",
+        props:['searchText'],
         components: {
             CardsTableLine
         },
@@ -41,8 +42,7 @@
                         console.log(error);
                     });
             },
-            searchCards: function (text) {
-                this.search.searchString = text;
+            searchCards: function () {
                 this.getCards().then(data => {
                     this.cards = data;
                 })
@@ -51,7 +51,7 @@
         data() {
             return {
                 search: {
-                    searchString : '',
+                    searchString : this.searchText,
                     selectedPage : 1
                 },
                 cards: [],

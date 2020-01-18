@@ -3,7 +3,7 @@
         <div class="row" style="padding: 10px">
             <div class="module-wrapper">
                 <div id="patient-card-menu"><Menu></Menu></div>
-                <div id="patient-card-body"><component :is="currentView"></component></div>
+                <div id="patient-card-body"><component :is="currentView" :search-text="searchText"></component></div>
             </div>
         </div>
     </div>
@@ -18,8 +18,9 @@
         name: "PatientCard",
         components: {Menu, Card, Cards},
         methods: {
-          searchCards: function () {
+          searchCards: function (text) {
               this.currentView = 'Cards';
+              this.searchText = text;
           },
           getCard: function () {
               this.currentView = 'Card';
@@ -28,6 +29,7 @@
         data() {
             return {
                 currentView: 'Card',
+                searchText: '',
             }
         },
         created: function () {
