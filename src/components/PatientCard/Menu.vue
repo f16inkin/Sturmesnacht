@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div id="buttons" class="col-6"><Buttons></Buttons></div>
+        <div id="buttons" class="col-6"><Buttons :allow-buttons="allowButtons"></Buttons></div>
         <div id="search" class="col-6"><Search></Search></div>
     </div>
 </template>
@@ -10,6 +10,7 @@
     import Buttons from "../../components/PatientCard/Buttons";
     export default {
         name: "Menu",
+        props: ['allowButtons'],
         components: {
           Search, Buttons
         }

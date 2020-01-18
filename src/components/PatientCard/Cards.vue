@@ -14,7 +14,7 @@
                 </tr>
                 </thead>
                 <tbody id="cards-data-table-content">
-                <cards-table-line v-for="card in cards" :key="card.id" :card="card"></cards-table-line>
+                <cards-table-line v-for="card in this.emittedData" :key="card.id" :card="card"></cards-table-line>
                 </tbody>
             </table>
         </div>
@@ -22,49 +22,12 @@
 </template>
 
 <script>
-    const apiUrl = 'http://192.168.0.10';
-    import axios from 'axios';
-    import { bus } from "../../main";
     import CardsTableLine from '../../components/PatientCard/CardsTableLine';
     export default {
         name: "Cards",
-        props:['searchText'],
+        props:['emittedData'],
         components: {
             CardsTableLine
-        },
-        methods: {
-            getCards: function(){
-                return axios.post(`${apiUrl}/app/patient-card/search-cards`, JSON.stringify(this.search))
-                    .then(function (response) {
-                        return response.data.cards;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            searchCards: function () {
-                this.getCards().then(data => {
-                    this.cards = data;
-                })
-            }
-        },
-        data() {
-            return {
-                search: {
-                    searchString : this.searchText,
-                    selectedPage : 1
-                },
-                cards: [],
-            }
-        },
-        created: function(){
-            bus.$on('searchCards', this.searchCards);
-        },
-        beforeDestroy: function () {
-            bus.$off('searchCards', this.searchCards);
-        },
-        mounted:function () {
-            this.searchCards();
         }
     }
 </script>

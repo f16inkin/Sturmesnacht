@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="row" style="padding: 10px">
             <div class="module-wrapper">
-                <div id="patient-card-menu"><Menu></Menu></div>
-                <div id="patient-card-body"><component :is="currentView" :search-text="searchText"></component></div>
+                <div id="patient-card-menu"><Menu :allow-buttons="allowButtons"></Menu></div>
+                <div id="patient-card-body"><component :is="currentView" :emitted-data="emittedData"></component></div>
             </div>
         </div>
     </div>
@@ -18,29 +18,33 @@
         name: "PatientCard",
         components: {Menu, Card, Cards},
         methods: {
-          searchCards: function (text) {
-              this.currentView = 'Cards';
-              this.searchText = text;
-          },
-          getCard: function () {
-              this.currentView = 'Card';
-          }  
+            getCards: function (emittedData)
+            {
+                this.currentView = 'Cards';
+                this.emittedData = emittedData;
+                this.allowButtons = false;
+            },
+            getCard: function () {
+                this.currentView = 'Card';
+                this.allowButtons = true;
+            }
         },
         data() {
             return {
                 currentView: 'Card',
-                searchText: '',
+                emittedData: '',
+                allowButtons: true
             }
         },
         created: function () {
-            bus.$on('searchCards', this.searchCards);
+            bus.$on('getCards', this.getCards);
             bus.$on('getCard', this.getCard);
         },
         beforeDestroy: function () {
             /**
              * Зачистка слушателей, чтобы не сохранять состояние
              */
-            bus.$off('searchCards', this.searchCards);
+            bus.$off('getCards', this.getCards);
             bus.$off('getCard', this.getCard);
         },
     }

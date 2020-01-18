@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row" v-show="allowButtons">
         <div id="card-control-buttons" class="col-8">
             <span v-for="button in buttons">
                 <transition name="fade">
@@ -15,6 +15,7 @@
     import { bus } from "../../main";
     export default {
         name: "Buttons",
+        props: ['allowButtons'],
         methods: {
             editCard: function(){
                 bus.$emit('editCard', {name: 'Name1', surname: 'Surname', counter: 0});
