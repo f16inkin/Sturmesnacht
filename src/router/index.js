@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/app/patient-card/get/:id',
     name: 'getCard',
-    component: PatientCard,
+    component: () => import('../views/PatientCard'),//PatientCard,
     meta: {title: 'Карта пациента'}
   }
 ];

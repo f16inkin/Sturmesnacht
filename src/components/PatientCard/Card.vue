@@ -53,9 +53,7 @@
 </template>
 
 <script>
-    const apiUrl = 'http://192.168.0.10';
     import { bus } from "../../main";
-    import axios from 'axios';
     import CardPersonalData from "./CardPersonalData"
     import CardDocuments from "./CardDocuments";
     import CardAddresses from "./CardAddresses";
@@ -64,26 +62,7 @@
         name: "Card",
         components: {CardPersonalData, CardDocuments, CardAddresses, CardAdditionally},
         methods: {
-            getCard: function(){
-                return axios.get(`${apiUrl}/app/patient-card/get/${this.cardId}`)
-                    .then(function (response) {
-                        return response.data.card_data;
-
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            editCard: function(object){
-                /**
-                 * Сначала проверка, на то не заблокированна ли карта?
-                 * Если нет, то можно ставить disabledInput в false
-                 * Тогл тут не будет к месту
-                 */
-                console.log(object.name);
-                console.log(object.surname);
-                console.log(object.counter +=1);
-                this.surname = object.surname;
+            editCard: function(){
                 this.disabledInput = !this.disabledInput;
             },
             saveCard: function(){
@@ -133,8 +112,6 @@
         created: function(){
             bus.$on('editCard', this.editCard);
             bus.$on('saveCard', this.saveCard);
-            let cardId = this.$route.params.id;
-            this.cardId = cardId;
         },
         beforeDestroy: function () {
             /**
@@ -143,40 +120,16 @@
             bus.$off('editCard', this.editCard);
             bus.$off('saveCard', this.saveCard);
         },
-        mounted: function () {
-            this.getCard().then(data => {
-                console.log(data);
-                this.cardNumber = data.cardNumber;
-                this.surname = data.surname;
-                this.firstName = data.firstName;
-                this.secondName = data.secondName;
-                this.genderId = data.genderId;
-                this.dateBirth = data.dateBirth;
-                this.telephone = data.telephone;
-                this.email = data.email;
-                this.policyNumber = data.policyNumber;
-                this.insuranceCertificate = data.insuranceCertificate;
-                this.insuranceCompanyId = data.insuranceCompanyId;
-                this.insuranceCompany = data.insuranceCompany;
-                this.passport = data.passportSerial + ' ' + data.passportNumber;
-                this.fmsDepartment = data.fmsDepartment;
-                this.birthCertificate = data.birthCertificateSerial + ' ' + data.birthCertificateNumber;
-                this.registryOffice = data.registryOffice;
-                this.regionName = data.region;
-                this.regionId = data.regionId;
-                this.districtId = data.districtId;
-                this.districtName = data.district;
-                this.localityId = data.localityId;
-                this.localityName = data.locality;
-                this.streetId = data.streetId;
-                this.streetName = data.street;
-                this.houseNumber = data.houseNumber;
-                this.apartmentNumber = data.apartment;
-                this.workplace = data.workPlace;
-                this.profession = data.profession;
-                this.notationText = data.notation;
-            });
-        }
+        mounted: function(){
+            this.$store.dispatch('getCardAction');
+            console.log(this.$store.state.patientCard.card);
+            this.cardNumber = this.$store.state.patientCard.card.cardNumber;
+        },
+        computed: {
+            card(){
+                return this.$store.state.card;
+            }
+        },
     }
 </script>
 

@@ -14,38 +14,28 @@
 </template>
 
 <script>
-    const apiUrl = 'http://192.168.0.10';
-    import axios from 'axios';
-    import { bus } from "../../main";
     export default {
         name: "Search",
         methods: {
             getCards: function () {
                 if (this.search.searchString.length > 0) {
-                    return axios.post(`${apiUrl}/app/patient-card/search-cards`, JSON.stringify(this.search))
-                        .then(function (response) {
-                            return response.data.cards;
-                        })
-                        .then(data => {
-                            this.cardsCount = data.length;
-                            bus.$emit('getCards', data);
-                            //эмит комманда для меню
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
+                    this.$store.dispatch('getCards', this.search);
+                    //this.$store.dispatch('getCards', this.search);
                 }
             },
             getCard: function () {
                 if (this.search.searchString.length === 0){
-                    this.cardsCount = 0;
-                    bus.$emit('getCard');
+                    this.$store.dispatch('getCard');
                 }
+            }
+        },
+        computed:{
+            cardsCount(){
+                return this.$store.getters.cardsCountGetter;
             }
         },
         data() {
             return {
-                cardsCount: 0,
                 search: {
                     searchString : '',
                     selectedPage : 1
