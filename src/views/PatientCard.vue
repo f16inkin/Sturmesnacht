@@ -3,7 +3,7 @@
         <div class="row" style="padding: 10px">
             <div class="module-wrapper">
                 <div id="patient-card-menu"><Menu :allow-buttons="allowButtons"></Menu></div>
-                <div id="patient-card-body"><component :is="currentView" :emitted-data="emittedData"></component></div>
+                <div id="patient-card-body"><component :is="this.$store.state.patientCard.currentView"></component></div>
             </div>
         </div>
     </div>
@@ -17,21 +17,8 @@
     export default {
         name: "PatientCard",
         components: {Menu, Card, Cards},
-        methods: {
-            getCards: function (emittedData)
-            {
-                this.currentView = 'Cards';
-                this.emittedData = emittedData;
-                this.allowButtons = false;
-            },
-            getCard: function () {
-                this.currentView = 'Card';
-                this.allowButtons = true;
-            }
-        },
         data() {
             return {
-                currentView: 'Card',
                 emittedData: '',
                 allowButtons: true
             }

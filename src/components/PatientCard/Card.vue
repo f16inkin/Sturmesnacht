@@ -2,50 +2,50 @@
     <div class="row">
         <div id="personal-data-section" class="col-3">
             <CardPersonalData
-                    :card-number="cardNumber"
-                    :surname="surname"
-                    :first-name="firstName"
-                    :second-name="secondName"
-                    :gender-id="genderId"
-                    :date-birth="dateBirth"
-                    :telephone="telephone"
-                    :email="email"
+                    :card-number="this.$store.state.patientCard.card.cardNumber"
+                    :surname="this.$store.state.patientCard.card.surname"
+                    :first-name="this.$store.state.patientCard.card.firstName"
+                    :second-name="this.$store.state.patientCard.card.secondName"
+                    :gender-id="this.$store.state.patientCard.card.genderId"
+                    :date-birth="this.$store.state.patientCard.card.dateBirth"
+                    :telephone="this.$store.state.patientCard.card.telephone"
+                    :email="this.$store.state.patientCard.card.email"
                     :disabled-input="disabledInput"
             ></CardPersonalData>
         </div>
         <div id="documents-section" class="col-3">
             <CardDocuments
-                    :insurance-certificate="insuranceCertificate"
-                    :policy-number="policyNumber"
-                    :insurance-company-id="insuranceCompanyId"
-                    :insurance-company="insuranceCompany"
-                    :passport="passport"
-                    :birth-certificate="birthCertificate"
-                    :fms-department="fmsDepartment"
-                    :registry-office="registryOffice"
+                    :insurance-certificate="this.$store.state.patientCard.card.insuranceCertificate"
+                    :policy-number="this.$store.state.patientCard.card.policyNumber"
+                    :insurance-company-id="this.$store.state.patientCard.card.insuranceCompanyId"
+                    :insurance-company="this.$store.state.patientCard.card.insuranceCompany"
+                    :passport="this.$store.state.patientCard.card.passport"
+                    :birth-certificate="this.$store.state.patientCard.card.birthCertificate"
+                    :fms-department="this.$store.state.patientCard.card.fmsDepartment"
+                    :registry-office="this.$store.state.patientCard.card.registryOffice"
                     :disabled-input="disabledInput"
             ></CardDocuments>
         </div>
         <div id="addresses-section" class="col-3">
             <CardAddresses
-                    :region-name="regionName"
-                    :region-id="regionId"
-                    :district-id="districtId"
-                    :district-name="districtName"
-                    :locality-id="localityId"
-                    :locality-name="localityName"
-                    :street-id="streetId"
-                    :street-name="streetName"
-                    :house-number="houseNumber"
-                    :apartment-number="apartmentNumber"
+                    :region-name="this.$store.state.patientCard.card.region"
+                    :region-id="this.$store.state.patientCard.card.regionId"
+                    :district-id="this.$store.state.patientCard.card.districtId"
+                    :district-name="this.$store.state.patientCard.card.district"
+                    :locality-id="this.$store.state.patientCard.card.localityId"
+                    :locality-name="this.$store.state.patientCard.card.locality"
+                    :street-id="this.$store.state.patientCard.card.streetId"
+                    :street-name="this.$store.state.patientCard.card.street"
+                    :house-number="this.$store.state.patientCard.card.houseNumber"
+                    :apartment-number="this.$store.state.patientCard.card.apartment"
                     :disabled-input="disabledInput"
             ></CardAddresses>
         </div>
         <div id="additionally-section" class="col-3">
             <CardAdditionally
-                    :workplace="workplace"
-                    :profession="profession"
-                    :notation-text="notationText"
+                    :workplace="this.$store.state.patientCard.card.workplace"
+                    :profession="this.$store.state.patientCard.card.profession"
+                    :notation-text="this.$store.state.patientCard.card.notation"
                     :disabled-input="disabledInput"
             ></CardAdditionally>
         </div>
@@ -71,42 +71,7 @@
         },
         data() {
             return {
-                cardId: '',
-                cardNumber: '',
-                surname: '',
-                firstName: '',
-                secondName: '',
-                genderId: '',
-                dateBirth: '',
-                telephone: '',
-                email: '',
-                insuranceCertificate: '',
-                policyNumber: '',
-                insuranceCompanyId: '',
-                insuranceCompany: '',
-                passport: '',
-                fmsDepartment: '',
-                birthCertificate: '',
-                registryOffice: '',
-                regionName: '',
-                regionId: '',
-                districtName: '',
-                districtId: '',
-                localityId: '',
-                localityName: '',
-                streetId: '',
-                streetName: '',
-                houseNumber: '',
-                apartmentNumber: '',
-                workplace: '',
-                profession: '',
-                notationText: '',
                 disabledInput: true,
-                /**
-                 * Касаемо смены видов
-                 */
-                currentView: ''
-
             }
         },
         created: function(){
@@ -121,15 +86,8 @@
             bus.$off('saveCard', this.saveCard);
         },
         mounted: function(){
-            this.$store.dispatch('getCardAction');
-            console.log(this.$store.state.patientCard.card);
-            this.cardNumber = this.$store.state.patientCard.card.cardNumber;
-        },
-        computed: {
-            card(){
-                return this.$store.state.card;
-            }
-        },
+            this.$store.dispatch('patientCard/getCardAction');
+        }
     }
 </script>
 

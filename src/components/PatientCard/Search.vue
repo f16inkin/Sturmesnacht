@@ -19,13 +19,12 @@
         methods: {
             getCards: function () {
                 if (this.search.searchString.length > 0) {
-                    this.$store.dispatch('getCards', this.search);
-                    //this.$store.dispatch('getCards', this.search);
+                    this.$store.dispatch('patientCard/getCardsAction', this.search);
                 }
             },
             getCard: function () {
                 if (this.search.searchString.length === 0){
-                    this.$store.dispatch('getCard');
+                    this.$store.dispatch('patientCard/getCardAction');
                 }
             }
         },
