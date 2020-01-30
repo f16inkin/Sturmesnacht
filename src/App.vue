@@ -1,16 +1,6 @@
 <template>
   <div id="wrapper">
-    <section id="header_section"></section>
-    <section id="main_section">
-      <section id="sidebar_section">
-        <TheSidebar></TheSidebar>
-      </section>
-      <section id="content_section">
-        <!--Выводится контент-->
-        <router-view/>
-      </section>
-    </section>
-    <section id="footer_section"></section>
+    <component :is="layout"></component>
   </div>
 </template>
 
@@ -52,8 +42,13 @@
   }
 </style>
 <script>
-  import TheSidebar from "./components/Sidebar/TheSidebar";
+  import AppLayout from "./layouts/AppLayout";
   export default {
-    components: {TheSidebar}
+    components: {AppLayout},
+    computed: {
+      layout: function() {
+        return this.$route.meta.layout + 'Layout';
+      }
+    }
   }
 </script>

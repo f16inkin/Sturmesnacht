@@ -24,13 +24,13 @@
             },
             getCard: function () {
                 if (this.search.searchString.length === 0){
-                    this.$store.dispatch('patientCard/getCardAction');
+                    this.$store.dispatch('patientCard/getCardAction', this.$router.currentRoute.params['id']);
                 }
             }
         },
         computed:{
             cardsCount(){
-                return this.$store.getters.cardsCountGetter;
+                return this.$store.getters['patientCard/cardsCountGetter'];
             }
         },
         data() {

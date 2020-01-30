@@ -1,5 +1,5 @@
 <template>
-    <div class="row" v-show="allowButtons">
+    <div class="row" v-show="isAllowButtons">
         <div id="card-control-buttons" class="col-8">
             <span v-for="button in buttons">
                 <transition name="fade">
@@ -7,15 +7,23 @@
                 </transition>
             </span>
         </div>
-        <div id="card-auxiliary-buttons" class="col-4"></div>
+        <div id="card-auxiliary-buttons" class="col-4">
+            <button class="btn btn-dark btn-sm mr-1" @click="printTalon"><i class="fa fa-print"></i> Печать талона</button>
+        </div>
     </div>
 </template>
 
 <script>
+    const apiUrl = 'http://192.168.0.10';
+    import { mapState } from 'vuex';
     import { bus } from "../../main";
     export default {
         name: "Buttons",
-        props: ['allowButtons'],
+        computed: {
+            ...mapState('patientCard', {
+                isAllowButtons: state => state.isAllowButtons
+            })
+        },
         methods: {
             editCard: function(){
                 bus.$emit('editCard', {name: 'Name1', surname: 'Surname', counter: 0});
@@ -27,6 +35,11 @@
                 this.editButton.show = true;
                 this.saveButton.show = false;
             },
+            printTalon: function () {
+                let talonPath = `${apiUrl}/app/patient-card/talon/ambulatory/show/${this.$router.currentRoute.params['id']}`;
+                window.open(talonPath, '_blank');
+
+            }
         },
         data(){
             return {

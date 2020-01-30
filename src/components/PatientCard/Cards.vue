@@ -14,7 +14,6 @@
                 </tr>
                 </thead>
                 <tbody id="cards-data-table-content">
-                <!--<cards-table-line v-for="card in this.$store.state.patientCard.cards" :key="card.id" :card="card"></cards-table-line>-->
                 <cards-table-line v-for="card in cards" :key="card.id" :card="card"></cards-table-line>
                 </tbody>
             </table>
@@ -30,22 +29,6 @@
         components: {
             CardsTableLine
         },
-        /*
-
-        computed:{
-            cards(){
-                return this.$store.getters.cardsGetter;
-            }
-        },*/
-        /*
-        ----------------
-        Без неймспейсов
-        ----------------
-        computed:{
-            ...mapState({
-                cards: state => state.patientCard.cards
-            })
-        }*/
         computed: {
             ...mapState('patientCard', {
                 cards: state => state.cards

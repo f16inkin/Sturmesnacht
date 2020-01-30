@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Desktop from "../views/Desktop";
-import PatientCard from "../views/PatientCard";
 
 Vue.use(VueRouter);
 
@@ -10,13 +9,13 @@ const routes = [
     path: '/',
     name: 'desktop',
     component: Desktop,
-    meta: {title: 'Рабочий стол'}
+    meta: {title: 'Рабочий стол', layout: 'App'}
   },
   {
     path: '/app/patient-card/get/:id',
     name: 'getCard',
-    component: () => import('../views/PatientCard'),//PatientCard,
-    meta: {title: 'Карта пациента'}
+    component: () => import('../views/PatientCard'),
+    meta: {title: 'Карта пациента', layout: 'App'}
   }
 ];
 

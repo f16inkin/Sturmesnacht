@@ -2,37 +2,25 @@
     <div class="container-fluid">
         <div class="row" style="padding: 10px">
             <div class="module-wrapper">
-                <div id="patient-card-menu"><Menu :allow-buttons="allowButtons"></Menu></div>
-                <div id="patient-card-body"><component :is="this.$store.state.patientCard.currentView"></component></div>
+                <div id="patient-card-menu"><Menu></Menu></div>
+                <div id="patient-card-body"><component :is="currentView"></component></div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import { bus } from "../main";
+    import { mapState } from 'vuex';
     import Menu from "../components/PatientCard/Menu";
     import Card from "../components/PatientCard/Card";
     import Cards from "../components/PatientCard/Cards";
     export default {
         name: "PatientCard",
         components: {Menu, Card, Cards},
-        data() {
-            return {
-                emittedData: '',
-                allowButtons: true
-            }
-        },
-        created: function () {
-            bus.$on('getCards', this.getCards);
-            bus.$on('getCard', this.getCard);
-        },
-        beforeDestroy: function () {
-            /**
-             * Зачистка слушателей, чтобы не сохранять состояние
-             */
-            bus.$off('getCards', this.getCards);
-            bus.$off('getCard', this.getCard);
+        computed: {
+            ...mapState('patientCard', {
+                currentView: state => state.currentView
+            })
         },
     }
 </script>
