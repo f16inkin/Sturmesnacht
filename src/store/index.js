@@ -4,12 +4,23 @@ import Vuex from 'vuex'
 /**
  * Модули
  */
-import PatientCard from './modules/PatientCard'
+import PatientCard from './modules/App/PatientCard'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules:{
-        patientCard: PatientCard
+        app:{
+            namespaced: true,
+            modules: {
+                patientCard: PatientCard
+            }
+        },
+        admin:{
+            namespaced: true,
+            modules: {
+
+            }
+        }
     }
 })

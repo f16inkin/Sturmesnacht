@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row" style="padding: 10px">
             <div class="module-wrapper">
-                <div id="patient-card-menu"><Menu></Menu></div>
+                <div id="patient-card-menu"><nav-bar></nav-bar></div>
                 <div id="patient-card-body"><component :is="currentView"></component></div>
             </div>
         </div>
@@ -11,14 +11,14 @@
 
 <script>
     import { mapState } from 'vuex';
-    import Menu from "../components/PatientCard/Menu";
-    import Card from "../components/PatientCard/Card";
-    import Cards from "../components/PatientCard/Cards";
+    import NavBar from "../../components/App/PatientCard/NavBar";
+    import Card from "../../components/App/PatientCard/Card";
+    import Cards from "../../components/App/PatientCard/Cards";
     export default {
         name: "PatientCard",
-        components: {Menu, Card, Cards},
+        components: {NavBar, Card, Cards},
         computed: {
-            ...mapState('patientCard', {
+            ...mapState('app/patientCard', {
                 currentView: state => state.currentView
             })
         },

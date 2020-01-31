@@ -3,7 +3,7 @@
         <section id="header_section"></section>
         <section id="main_section">
             <section id="sidebar_section">
-                <TheSidebar></TheSidebar>
+                <the-sidebar></the-sidebar>
             </section>
             <section id="content_section">
                 <!--Выводится контент-->

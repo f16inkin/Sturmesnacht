@@ -23,14 +23,14 @@
 
 <script>
     import { mapState } from 'vuex';
-    import CardsTableLine from '../../components/PatientCard/CardsTableLine';
+    import CardsTableLine from './CardsTableLine';
     export default {
         name: "Cards",
         components: {
             CardsTableLine
         },
         computed: {
-            ...mapState('patientCard', {
+            ...mapState('app/patientCard', {
                 cards: state => state.cards
             })
         },

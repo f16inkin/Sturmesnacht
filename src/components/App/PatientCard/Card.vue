@@ -53,8 +53,8 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
-    import { bus } from "../../main";
+    import { mapState, mapActions} from 'vuex';
+    import { bus } from "../../../main";
     import CardPersonalData from "./CardPersonalData"
     import CardDocuments from "./CardDocuments";
     import CardAddresses from "./CardAddresses";
@@ -63,7 +63,7 @@
         name: "Card",
         components: {CardPersonalData, CardDocuments, CardAddresses, CardAdditionally},
         computed: {
-            ...mapState('patientCard', {
+            ...mapState('app/patientCard', {
                 card: state => state.card
             })
         },
@@ -73,7 +73,8 @@
             },
             saveCard: function(){
                 this.disabledInput = !this.disabledInput;
-            }
+            },
+            ...mapActions('app/patientCard', ['getCardAction'])
         },
         data() {
             return {
@@ -83,7 +84,7 @@
         created: function(){
             bus.$on('editCard', this.editCard);
             bus.$on('saveCard', this.saveCard);
-            this.$store.dispatch('patientCard/getCardAction', this.$router.currentRoute.params['id']);
+            this.getCardAction(this.$router.currentRoute.params['id']);
         },
         beforeDestroy: function () {
             /**

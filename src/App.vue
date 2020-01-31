@@ -4,6 +4,20 @@
   </div>
 </template>
 
+<script>
+    export default {
+        components: {
+            AppLayout: () => import("./layouts/AppLayout")
+        },
+        computed: {
+            layout: function() {
+                let layout = this.$route.meta.layout;
+                return layout === undefined ? 'app-layout' : layout + '-layout';
+            }
+        }
+    }
+</script>
+
 <style>
   html, body {
     margin:0;
@@ -41,14 +55,3 @@
     padding: 15px;
   }
 </style>
-<script>
-  import AppLayout from "./layouts/AppLayout";
-  export default {
-    components: {AppLayout},
-    computed: {
-      layout: function() {
-        return this.$route.meta.layout + 'Layout';
-      }
-    }
-  }
-</script>

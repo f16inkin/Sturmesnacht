@@ -16,7 +16,7 @@ export default {
                 .then(function (response) {
                     return response.data.card_data;
                 }).then(data => {
-                    commit('getCardMutation', data)
+                    commit('GET_CARD', data)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -28,7 +28,7 @@ export default {
                     return response.data.cards;
                 })
                 .then(data => {
-                    commit('getCardsMutation', data)
+                    commit('GET_CARDS', data)
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -36,7 +36,8 @@ export default {
         },
     },
     mutations:{
-        getCardMutation: function (state, card){
+        GET_CARD: function (state, card){
+            console.log(card)
             state.card = card;
             state.card.passport = card.passportSerial + ' ' + card.passportNumber;
             //Пока так.
@@ -44,7 +45,7 @@ export default {
             state.cards = [];
             state.isAllowButtons = true;
         },
-        getCardsMutation: function (state, cards) {
+        GET_CARDS: function (state, cards) {
             state.cards = cards;
             state.currentView = 'Cards';
             state.isAllowButtons = false;

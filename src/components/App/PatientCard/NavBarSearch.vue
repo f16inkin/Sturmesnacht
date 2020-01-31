@@ -15,22 +15,22 @@
 
 <script>
     export default {
-        name: "Search",
+        name: "NavBarSearch",
         methods: {
             getCards: function () {
                 if (this.search.searchString.length > 0) {
-                    this.$store.dispatch('patientCard/getCardsAction', this.search);
+                    this.$store.dispatch('app/patientCard/getCardsAction', this.search);
                 }
             },
             getCard: function () {
                 if (this.search.searchString.length === 0){
-                    this.$store.dispatch('patientCard/getCardAction', this.$router.currentRoute.params['id']);
+                    this.$store.dispatch('app/patientCard/getCardAction', this.$router.currentRoute.params['id']);
                 }
             }
         },
         computed:{
             cardsCount(){
-                return this.$store.getters['patientCard/cardsCountGetter'];
+                return this.$store.getters['app/patientCard/cardsCountGetter'];
             }
         },
         data() {

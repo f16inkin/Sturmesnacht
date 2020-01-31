@@ -16,11 +16,11 @@
 <script>
     const apiUrl = 'http://192.168.0.10';
     import { mapState } from 'vuex';
-    import { bus } from "../../main";
+    import { bus } from "../../../main";
     export default {
-        name: "Buttons",
+        name: "NavBarButtons",
         computed: {
-            ...mapState('patientCard', {
+            ...mapState('app/patientCard', {
                 isAllowButtons: state => state.isAllowButtons
             })
         },
