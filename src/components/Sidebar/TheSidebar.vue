@@ -9,7 +9,7 @@
                     </router-link>
                 </li>
                 <li class="menu-item">
-                    <router-link :to="{name: 'getCard', params: {id:1}}">
+                    <router-link :to="{name: 'getCard', params: {id:card.id || 1}}">
                         <font-awesome-icon  class="fa-for-menu" :icon="['fas', 'id-card-alt']"/>
                         <span class="nav-text"> Patient Info</span>
                     </router-link>
@@ -26,8 +26,14 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     export default {
-        name: "TheSidebar"
+        name: "TheSidebar",
+        computed: {
+            ...mapState('app/patientCard', {
+                card: state => state.card
+            })
+        }
     }
 </script>
 

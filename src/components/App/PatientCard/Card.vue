@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import { mapState, mapActions} from 'vuex';
+    import { mapState, mapActions } from 'vuex';
     import { bus } from "../../../main";
     import CardPersonalData from "./CardPersonalData"
     import CardDocuments from "./CardDocuments";
@@ -68,13 +68,18 @@
             })
         },
         methods: {
+            ...mapActions('app/patientCard', ['getCardAction']),
+            loadCard: function(){
+                if (this.card.id === undefined){
+                    this.getCardAction(this.$router.currentRoute.params['id']);
+                }
+            },
             editCard: function(){
                 this.disabledInput = !this.disabledInput;
             },
             saveCard: function(){
                 this.disabledInput = !this.disabledInput;
-            },
-            ...mapActions('app/patientCard', ['getCardAction'])
+            }
         },
         data() {
             return {
@@ -84,7 +89,7 @@
         created: function(){
             bus.$on('editCard', this.editCard);
             bus.$on('saveCard', this.saveCard);
-            this.getCardAction(this.$router.currentRoute.params['id']);
+            this.loadCard();
         },
         beforeDestroy: function () {
             /**
