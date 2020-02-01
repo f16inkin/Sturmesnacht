@@ -1,7 +1,14 @@
 <template>
     <div class="patient-card-information-section box-shadow--2dp">
         <div class="patient-card-information-section-header">
-            <font-awesome-icon  class="fa-for-menu" :icon="['fas', 'folder']"/> Документы
+            <div class="row">
+                <div class="col-6">
+                    <font-awesome-icon  class="fa-for-menu" :icon="['fas', 'folder']"/> Документы
+                </div>
+                <div class="col-6">
+                    <section-header-controls @toggleInputs="toggleInputs"></section-header-controls>
+                </div>
+            </div>
         </div>
         <div class='patient-card-information-section-body'>
             <label for="insurance-certificate">СНИЛС<span class="red-asterisk">*</span>:</label>
@@ -9,7 +16,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'id-card']"/></div>
                 </div>
-                <input type="text" v-mask="'###-###-### ##'" class="form-control" id="insurance-certificate" name="insurance-certificate" placeholder="СНИЛС" :value="insuranceCertificate" :disabled="disabledInput">
+                <input type="text" v-mask="'###-###-### ##'" class="form-control" id="insurance-certificate" name="insurance-certificate" placeholder="СНИЛС" v-model="card.insuranceCertificate" :disabled="disabledInput">
             </div>
             <hr>
             <label for="policy-number">Единый номер полиса<span class="red-asterisk">*</span>:</label>
@@ -17,15 +24,15 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'clipboard']"/></div>
                 </div>
-                <input type="text" v-mask="'####-####-####-####'" class="form-control" id="policy-number" name="policy-number" placeholder="Номер полиса" :value="policyNumber" :disabled="disabledInput">
+                <input type="text" v-mask="'####-####-####-####'" class="form-control" id="policy-number" name="policy-number" placeholder="Номер полиса" v-model="card.policyNumber" :disabled="disabledInput">
             </div>
             <label for="insurance-company">Страховая компания:</label>
             <div class="input-group mb-2">
-                <input name="insurance-company-id" :value="insuranceCompanyId" hidden>
+                <input name="insurance-company-id" v-model="card.insuranceCompanyId" hidden>
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'clipboard']"/></div>
                 </div>
-                <input type="text" class="form-control" id="insurance-company" name="insurance-company" placeholder="Страховая компания" :value="insuranceCompany" :disabled="disabledInput">
+                <input type="text" class="form-control" id="insurance-company" name="insurance-company" placeholder="Страховая компания" v-model="card.insuranceCompany" :disabled="disabledInput">
                 <div id="insurance-company-search-result-area" class="search-result-area"></div>
             </div>
             <hr>
@@ -37,14 +44,14 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'id-card']"/></div>
                             </div>
-                            <input type="text" class="form-control" id="passport" name="passport" placeholder="Серия, номер паспорта" :value="passport" :disabled="disabledInput">
+                            <input type="text" v-mask="'#### ######'" class="form-control" id="passport" name="passport" placeholder="Серия, номер паспорта" v-model="card.passport" :disabled="disabledInput">
                         </div>
                         <label for="fms-department">Отдел ФМС выдавший паспорт:</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'id-card']"/></div>
                             </div>
-                            <textarea class="form-control" id="fms-department" name="fms-department" :disabled="disabledInput">{{fmsDepartment}}</textarea>
+                            <textarea class="form-control" id="fms-department" name="fms-department" :disabled="disabledInput">{{card.fmsDepartment}}</textarea>
                         </div>
                     </b-tab>
                     <b-tab title="Свидетельсво" title-link-class="text-warning">
@@ -53,14 +60,14 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'id-card']"/></div>
                             </div>
-                            <input type="text" class="form-control" id="birth-certificate" name="birth-certificate" placeholder="Серия, номер свидетельства" :value="birthCertificate" :disabled="disabledInput">
+                            <input type="text" v-mask="'#### ######'" class="form-control" id="birth-certificate" name="birth-certificate" placeholder="Серия, номер свидетельства" v-model="card.birthCertificate" :disabled="disabledInput">
                         </div>
                         <label for="registry-office">Отдел ЗАГС выдавший свидетельство:</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'id-card']"/></div>
                             </div>
-                            <textarea class="form-control" id="registry-office" name="registry-office" :disabled="disabledInput">{{registryOffice}}</textarea>
+                            <textarea class="form-control" id="registry-office" name="registry-office" :disabled="disabledInput">{{card.registryOffice}}</textarea>
                             <div id="fms-department-search-result-area" class="search-result-area"></div>
                         </div>
                     </b-tab>
@@ -71,28 +78,41 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
+    import SectionHeaderControls from "./SectionHeaderControls"
     export default {
         name: "CardDocuments",
-        props: ['insuranceCertificate', 'policyNumber', 'insuranceCompanyId', 'insuranceCompany',
-            'passport', 'fmsDepartment', 'birthCertificate', 'registryOffice', 'disabledInput']
-        /*props: {
-            insuranceCertificate:{},
-            policyNumber: {},
-            insuranceCompanyId: {},
-            insuranceCompany: {},
-            passport: {},
-            fmsDepartment: {},
-            birthCertificate: {default: '-123'},
-            registryOffice: {
-                type: String,
-                required: true,
-                default: '-',
-            },
-            disabledInput: {}
-        }*/
+        components: {
+            SectionHeaderControls
+        },
+        computed: {
+            ...mapState('app/patientCard', {
+                card: state => state.card
+            })
+        },
+        methods: {
+            toggleInputs: function () {
+                this.disabledInput = !this.disabledInput;
+            }
+        },
+        data() {
+            return {
+                disabledInput: true,
+            }
+        }
     }
 </script>
 
 <style scoped>
-
+    .modal-mask {
+        position: fixed;
+        z-index: 9998;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .5);
+        display: table;
+        transition: opacity .3s ease;
+    }
 </style>

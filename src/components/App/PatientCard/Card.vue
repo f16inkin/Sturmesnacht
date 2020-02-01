@@ -14,17 +14,7 @@
             ></CardPersonalData>
         </div>
         <div id="documents-section" class="col-3">
-            <CardDocuments
-                    :insurance-certificate="card.insuranceCertificate"
-                    :policy-number="card.policyNumber"
-                    :insurance-company-id="card.insuranceCompanyId"
-                    :insurance-company="card.insuranceCompany"
-                    :passport="card.passport"
-                    :birth-certificate="card.birthCertificate"
-                    :fms-department="card.fmsDepartment"
-                    :registry-office="card.registryOffice"
-                    :disabled-input="disabledInput"
-            ></CardDocuments>
+            <CardDocuments></CardDocuments>
         </div>
         <div id="addresses-section" class="col-3">
             <CardAddresses
