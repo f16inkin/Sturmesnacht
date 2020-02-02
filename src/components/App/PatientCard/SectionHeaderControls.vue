@@ -22,11 +22,19 @@
             saveCard: function () {
                 this.$emit('toggleInputs');
                 this.toggleButtons();
+                //Очистить результаты поиска в инпутах, если таковые имеются
+                this.emptySearchResults();
                 //Далее тут запрос к Vuex для обновления карты
             },
             toggleButtons: function () {
                 this.editButton.show = !this.editButton.show;
                 this.saveButton.show = !this.saveButton.show;
+            },
+            emptySearchResults: function () {
+                let results = document.querySelectorAll('.patient-card-search-result-line');
+                results.forEach(function (item) {
+                    item.remove();
+                });
             }
         },
         data(){

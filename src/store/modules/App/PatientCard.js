@@ -8,7 +8,8 @@ export default {
         card: {},
         cards: [],
         currentView: 'Card',
-        isAllowButtons: true
+        isAllowButtons: true,
+        disposition: []
     },
     actions:{
         getCardAction: function({commit}, id){
@@ -34,6 +35,22 @@ export default {
                     console.log(error);
                 });
         },
+
+        getSearchDataAction: function ({commit}, payload) {
+            console.log(payload.field);
+            console.log(payload.searchString);
+            return axios.get(
+                `${apiUrl}/app/patient-card/${payload.field}`, {params: {searchString: payload.searchString, CustomData: 'fddfdsffd'}})
+                .then(function (response) {
+                    console.log(response.data);
+                    return response.data;
+                }).then(data => {
+                    commit('SEARCH_DATA', data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
     },
     mutations:{
         GET_CARD: function (state, card){
@@ -49,6 +66,9 @@ export default {
             state.cards = cards;
             state.currentView = 'Cards';
             state.isAllowButtons = false;
+        },
+        SEARCH_DATA: function (state, disposition) {
+            state.disposition = disposition
         }
     },
     getters:{

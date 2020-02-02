@@ -17,8 +17,20 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'address-book']"/></div>
                 </div>
-                <input type="text" class="form-control" id="region" name="region" placeholder="Регион" v-model="card.region" :disabled="disabledInput">
-                <div id="region-search-result-area" class="search-result-area"></div>
+                <input type="text" class="form-control" id="region" name="region" placeholder="Регион" @keyup="searchRegion" v-model="card.region" :disabled="disabledInput">
+                <div class="search-result-area" v-if="disposition">
+                    <div class="search-result-container">
+                        <div  v-for="disp in disposition" :key="disp.id" class="patient-card-search-result-line with-result">
+                            <div class="search-id" hidden>{{disp.id}}</div>
+                            <div class="search-text">{{disp.value}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-result-area" v-else>
+                    <div class="search-result-container">
+                        <div class="patient-card-search-result-line with-result">Nothing</div>
+                    </div>
+                </div>
             </div>
             <label for="district">Район:</label>
             <div class="input-group mb-2">
@@ -81,22 +93,51 @@
         },
         computed: {
             ...mapState('app/patientCard', {
-                card: state => state.card
+                card: state => state.card,
+                disposition: state => state.disposition
             })
         },
         methods: {
             toggleInputs: function () {
                 this.disabledInput = !this.disabledInput;
+            },
+            searchRegion: function() {
+                clearTimeout(this.typingTimer);
+                this.typingTimer = setTimeout( () => {
+                    this.getSearchData({field: 'search-region', searchString: this.card.region});
+                }, 500);
+            },
+            getSearchData: function (payload) {
+                this.$store.dispatch('app/patientCard/getSearchDataAction', payload);
             }
         },
         data() {
             return {
-                disabledInput: true,
+                typingTimer: 0,
+                disabledInput: true
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .patient-card-search-result-line{
+        width: 100%;
+        padding: 7px;
+    }
+    .patient-card-search-result-line:hover{
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+    .search-result-container{
+        width: 100%;
+        border: solid 1px;
+        border-color: #dce1e5;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+    .search-result-area {
+        width: 100%;
+    }
 </style>

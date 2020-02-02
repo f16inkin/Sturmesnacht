@@ -2,49 +2,25 @@
     <div class="row">
         <div id="personal-data-section" class="col-3">
             <CardPersonalData
-                    :card-number="card.cardNumber"
                     :surname="card.surname"
                     :first-name="card.firstName"
                     :second-name="card.secondName"
-                    :gender-id="card.genderId"
-                    :date-birth="card.dateBirth"
-                    :telephone="card.telephone"
-                    :email="card.email"
-                    :disabled-input="disabledInput"
             ></CardPersonalData>
         </div>
         <div id="documents-section" class="col-3">
             <CardDocuments></CardDocuments>
         </div>
         <div id="addresses-section" class="col-3">
-            <CardAddresses
-                    :region-name="card.region"
-                    :region-id="card.regionId"
-                    :district-id="card.districtId"
-                    :district-name="card.district"
-                    :locality-id="card.localityId"
-                    :locality-name="card.locality"
-                    :street-id="card.streetId"
-                    :street-name="card.street"
-                    :house-number="card.houseNumber"
-                    :apartment-number="card.apartment"
-                    :disabled-input="disabledInput"
-            ></CardAddresses>
+            <CardAddresses></CardAddresses>
         </div>
         <div id="additionally-section" class="col-3">
-            <CardAdditionally
-                    :workplace="card.workplace"
-                    :profession="card.profession"
-                    :notation-text="card.notation"
-                    :disabled-input="disabledInput"
-            ></CardAdditionally>
+            <CardAdditionally></CardAdditionally>
         </div>
     </div>
 </template>
 
 <script>
     import { mapState, mapActions } from 'vuex';
-    import { bus } from "../../../main";
     import CardPersonalData from "./CardPersonalData"
     import CardDocuments from "./CardDocuments";
     import CardAddresses from "./CardAddresses";
@@ -71,22 +47,8 @@
                 this.disabledInput = !this.disabledInput;
             }
         },
-        data() {
-            return {
-                disabledInput: true,
-            }
-        },
         created: function(){
-            bus.$on('editCard', this.editCard);
-            bus.$on('saveCard', this.saveCard);
             this.loadCard();
-        },
-        beforeDestroy: function () {
-            /**
-             * Зачистка слушателей, чтобы не сохранять состояние
-             */
-            bus.$off('editCard', this.editCard);
-            bus.$off('saveCard', this.saveCard);
         }
     }
 </script>

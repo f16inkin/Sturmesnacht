@@ -16,7 +16,6 @@
 <script>
     const apiUrl = 'http://192.168.0.10';
     import { mapState } from 'vuex';
-    import { bus } from "../../../main";
     export default {
         name: "NavBarButtons",
         computed: {
@@ -25,20 +24,9 @@
             })
         },
         methods: {
-            editCard: function(){
-                bus.$emit('editCard', {name: 'Name1', surname: 'Surname', counter: 0});
-                this.editButton.show = false;
-                this.saveButton.show = true;
-            },
-            saveCard: function () {
-                bus.$emit('saveCard');
-                this.editButton.show = true;
-                this.saveButton.show = false;
-            },
             printTalon: function () {
                 let talonPath = `${apiUrl}/app/patient-card/talon/ambulatory/show/${this.$router.currentRoute.params['id']}`;
                 window.open(talonPath, '_blank');
-
             }
         },
         data(){
@@ -51,27 +39,11 @@
                     disable: false,
                     show:true
                 },
-                editButton: {
-                    title: 'Изменить',
-                    icon: 'edit',
-                    class: 'btn btn-dark btn-sm mr-1',
-                    action: this.editCard,
-                    disable: false,
-                    show:true
-                },
-                saveButton: {
-                    title: 'Сохранить',
-                    icon: 'save',
-                    class: 'btn btn-success btn-sm mr-1',
-                    action: this.saveCard,
-                    disable: false,
-                    show: false
-                },
                 buttons:[]
             }
         },
         mounted: function () {
-            this.buttons = [this.createButton, this.editButton, this.saveButton];
+            this.buttons = [this.createButton]
         }
     }
 </script>
