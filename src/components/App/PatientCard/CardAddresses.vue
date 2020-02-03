@@ -18,17 +18,17 @@
                     <div class="input-group-text"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'address-book']"/></div>
                 </div>
                 <input type="text" class="form-control" id="region" name="region" placeholder="Регион" @keyup="searchRegion" v-model="card.region" :disabled="disabledInput">
-                <div class="search-result-area" v-if="disposition">
+                <div class="search-result-area" v-if="dispositions">
                     <div class="search-result-container">
-                        <div  v-for="disp in disposition" :key="disp.id" class="patient-card-search-result-line with-result">
-                            <div class="search-id" hidden>{{disp.id}}</div>
-                            <div class="search-text">{{disp.value}}</div>
+                        <div  v-for="disposition in dispositions" :key="disposition.id" class="patient-card-search-result-line" @click="setDisposition(disposition, 'regionId', 'region')" >
+                            <div hidden>{{disposition.id}}</div>
+                            <div>{{disposition.value}}</div>
                         </div>
                     </div>
                 </div>
                 <div class="search-result-area" v-else>
                     <div class="search-result-container">
-                        <div class="patient-card-search-result-line with-result">Nothing</div>
+                        <div class="patient-card-search-result-line" @click="clearNothing">Nothing</div>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@
         computed: {
             ...mapState('app/patientCard', {
                 card: state => state.card,
-                disposition: state => state.disposition
+                dispositions: state => state.dispositions
             })
         },
         methods: {
@@ -103,12 +103,24 @@
             },
             searchRegion: function() {
                 clearTimeout(this.typingTimer);
+                this.clearDispositions(['district', 'locality', 'street', 'districtId', 'localityId', 'streetId']);
                 this.typingTimer = setTimeout( () => {
-                    this.getSearchData({field: 'search-region', searchString: this.card.region});
+                    this.getDisposition({searchField: 'search-region', searchString: this.card.region, searchParams: ''});
                 }, 500);
             },
-            getSearchData: function (payload) {
-                this.$store.dispatch('app/patientCard/getSearchDataAction', payload);
+            getDisposition: function (payload) {
+                this.$store.dispatch('app/patientCard/getDispositionsAction', payload);
+            },
+            setDisposition: function(payload, idField, valueField) {
+                payload.idFieldName = idField;
+                payload.valueFieldName = valueField;
+                this.$store.dispatch('app/patientCard/setDispositionAction', payload);
+            },
+            clearDispositions: function (payload) {
+                this.$store.dispatch('app/patientCard/clearDispositionsAction', payload);
+            },
+            clearNothing: function () {
+                document.querySelector('.search-result-container').innerHTML = '';
             }
         },
         data() {

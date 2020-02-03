@@ -9,7 +9,7 @@ export default {
         cards: [],
         currentView: 'Card',
         isAllowButtons: true,
-        disposition: []
+        dispositions: []
     },
     actions:{
         getCardAction: function({commit}, id){
@@ -36,20 +36,24 @@ export default {
                 });
         },
 
-        getSearchDataAction: function ({commit}, payload) {
-            console.log(payload.field);
-            console.log(payload.searchString);
+        getDispositionsAction: function ({commit}, payload) {
             return axios.get(
-                `${apiUrl}/app/patient-card/${payload.field}`, {params: {searchString: payload.searchString, CustomData: 'fddfdsffd'}})
+                `${apiUrl}/app/patient-card/${payload.searchField}`, {params: {searchString: payload.searchString, searchParams: payload.searchParams}})
                 .then(function (response) {
                     console.log(response.data);
                     return response.data;
                 }).then(data => {
-                    commit('SEARCH_DATA', data)
+                    commit('GET_DISPOSITIONS', data)
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+        },
+        setDispositionAction: function ({commit}, payload) {
+            commit('SET_DISPOSITION', payload);
+        },
+        clearDispositionsAction: function ({commit}, payload) {
+            commit('CLEAR_DISPOSITIONS', payload);
         }
     },
     mutations:{
@@ -67,8 +71,18 @@ export default {
             state.currentView = 'Cards';
             state.isAllowButtons = false;
         },
-        SEARCH_DATA: function (state, disposition) {
-            state.disposition = disposition
+        GET_DISPOSITIONS: function (state, dispositions) {
+            state.dispositions = dispositions;
+        },
+        SET_DISPOSITION: function (state, disposition) {
+            state.card[disposition.idFieldName] = disposition.id;
+            state.card[disposition.valueFieldName] = disposition.value;
+            state.dispositions = [];
+        },
+        CLEAR_DISPOSITIONS: function (state, dispositions) {
+            dispositions.forEach(function (item) {
+                state.card[item]= '';
+            })
         }
     },
     getters:{

@@ -31,10 +31,7 @@
                 this.saveButton.show = !this.saveButton.show;
             },
             emptySearchResults: function () {
-                let results = document.querySelectorAll('.patient-card-search-result-line');
-                results.forEach(function (item) {
-                    item.remove();
-                });
+                document.querySelector('.search-result-container').innerHTML = '';
             }
         },
         data(){
