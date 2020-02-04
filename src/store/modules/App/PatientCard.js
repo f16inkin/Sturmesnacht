@@ -9,7 +9,12 @@ export default {
         cards: [],
         currentView: 'Card',
         isAllowButtons: true,
-        dispositions: []
+        dispositions: {
+            regions: [],
+            districts: [],
+            localities: [],
+            streets: []
+        }
     },
     actions:{
         getCardAction: function({commit}, id){
@@ -42,8 +47,8 @@ export default {
                 `${apiUrl}/app/patient-card/${payload.searchField}`, {params: {searchString: payload.searchString, searchParams: payload.searchParams}})
                 .then(function (response) {
                     return response.data;
-                }).then(data => {
-                    commit('GET_DISPOSITIONS', data)
+                }).then(dispositions => {
+                    commit('GET_DISPOSITIONS', {dispositions: dispositions, disposition: payload.disposition})
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -91,11 +96,11 @@ export default {
         /**
          * Получает диспозиции: регион, улица, населенный пункт, район.
          * @param state
-         * @param dispositions
+         * @param payload
          * @constructor
          */
-        GET_DISPOSITIONS: function (state, dispositions) {
-            state.dispositions = dispositions;
+        GET_DISPOSITIONS: function (state, payload) {
+            state.dispositions[payload.disposition] = payload.dispositions;
         },
         /**
          * Устанавливает диспозиции: регион, район, населенный пункт, улица.
@@ -106,7 +111,7 @@ export default {
         SET_DISPOSITION: function (state, disposition) {
             state.card[disposition.idFieldName] = disposition.id;
             state.card[disposition.valueFieldName] = disposition.value;
-            state.dispositions = [];
+            state.dispositions[disposition.dispositionSection] = [];
         },
         /**
          * Очищает поля для связанных диспозиций.
@@ -128,7 +133,10 @@ export default {
          * @constructor
          */
         CLEAR_NOTHING: function (state) {
-            state.dispositions = [];
+            state.dispositions.regions = [];
+            state.dispositions.districts = [];
+            state.dispositions.localities = [];
+            state.dispositions.streets = [];
         }
     },
     getters:{

@@ -18,11 +18,11 @@
                     <div class="input-group-text"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'address-book']"/></div>
                 </div>
                 <input type="text" class="form-control" id="region" name="region" placeholder="Регион" @keyup="searchRegion" v-model="card.region" :disabled="disabledInput">
-                <div class="search-result-area" v-if="dispositions">
+                <div class="search-result-area" v-if="dispositions.regions">
                     <div class="search-result-container">
-                        <div  v-for="disposition in dispositions" :key="disposition.id" class="patient-card-search-result-line" @click="setDisposition(disposition, 'regionId', 'region')" >
-                            <div hidden>{{disposition.id}}</div>
-                            <div>{{disposition.value}}</div>
+                        <div  v-for="region in dispositions.regions" :key="region.id" class="patient-card-search-result-line" @click="setDisposition(region, 'regionId', 'region', 'regions')" >
+                            <div hidden>{{region.id}}</div>
+                            <div>{{region.value}}</div>
                         </div>
                     </div>
                 </div>
@@ -38,8 +38,20 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'address-book']"/></div>
                 </div>
-                <input type="text" class="form-control" id="district" name="district" placeholder="Район" v-model="card.district" :disabled="disabledInput">
-                <div id="district-search-result-area" class="search-result-area"></div>
+                <input type="text" class="form-control" id="district" name="district" placeholder="Район" @keyup="searchDistrict" v-model="card.district" :disabled="disabledInput">
+                <div class="search-result-area" v-if="dispositions.districts">
+                    <div class="search-result-container">
+                        <div  v-for="district in dispositions.districts" :key="district.id" class="patient-card-search-result-line" @click="setDisposition(district, 'districtId', 'district', 'districts')" >
+                            <div hidden>{{district.id}}</div>
+                            <div>{{district.value}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-result-area" v-else>
+                    <div class="search-result-container">
+                        <div class="patient-card-search-result-line" @click="clearNothing">Nothing</div>
+                    </div>
+                </div>
             </div>
             <label for="locality">Населенный пункт:</label>
             <div class="input-group mb-2">
@@ -47,8 +59,20 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'address-book']"/></div>
                 </div>
-                <input type="text" class="form-control" id="locality" name="locality" placeholder="Населенный пункт" v-model="card.locality" :disabled="disabledInput">
-                <div id="locality-search-result-area" class="search-result-area"></div>
+                <input type="text" class="form-control" id="locality" name="locality" placeholder="Населенный пункт" @keyup="searchLocality" v-model="card.locality" :disabled="disabledInput">
+                <div class="search-result-area" v-if="dispositions.localities">
+                    <div class="search-result-container">
+                        <div  v-for="locality in dispositions.localities" :key="locality.id" class="patient-card-search-result-line" @click="setDisposition(locality, 'localityId', 'locality', 'localities')" >
+                            <div hidden>{{locality.id}}</div>
+                            <div>{{locality.value}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-result-area" v-else>
+                    <div class="search-result-container">
+                        <div class="patient-card-search-result-line" @click="clearNothing">Nothing</div>
+                    </div>
+                </div>
             </div>
             <label for="street">Улица:</label>
             <div class="input-group mb-2">
@@ -56,8 +80,20 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'address-book']"/></div>
                 </div>
-                <input type="text" class="form-control" id="street" name="street" placeholder="Улица" v-model="card.street" :disabled="disabledInput">
-                <div id="street-search-result-area" class="search-result-area"></div>
+                <input type="text" class="form-control" id="street" name="street" placeholder="Улица" @keyup="searchStreet" v-model="card.street" :disabled="disabledInput">
+                <div class="search-result-area" v-if="dispositions.streets">
+                    <div class="search-result-container">
+                        <div  v-for="street in dispositions.streets" :key="street.id" class="patient-card-search-result-line" @click="setDisposition(street, 'streetId', 'street', 'streets')" >
+                            <div hidden>{{street.id}}</div>
+                            <div>{{street.value}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-result-area" v-else>
+                    <div class="search-result-container">
+                        <div class="patient-card-search-result-line" @click="clearNothing">Nothing</div>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-6">
@@ -103,18 +139,42 @@
             },
             searchRegion: function() {
                 clearTimeout(this.typingTimer);
-                //this.clearDispositions(['district', 'locality', 'street', 'districtId', 'localityId', 'streetId']);
                 this.typingTimer = setTimeout( () => {
-                    this.clearDispositions(['district', 'locality', 'street', 'districtId', 'localityId', 'streetId']);
-                    this.getDisposition({searchField: 'search-region', searchString: this.card.region, searchParams: ''});
+                    this.clearDispositions(['district', 'locality', 'street', 'regionId', 'districtId', 'localityId', 'streetId']);
+                    this.getDisposition({searchField: 'search-region', searchString: this.card.region, searchParams: '', disposition: 'regions'});
                 }, 500);
             },
+
+            searchDistrict: function() {
+                clearTimeout(this.typingTimer);
+                this.typingTimer = setTimeout( () => {
+                    this.clearDispositions(['locality', 'street', 'localityId', 'streetId']);
+                    this.getDisposition({searchField: 'search-district', searchString: this.card.district, searchParams: this.card.regionId, disposition: 'districts'});
+                }, 500);
+            },
+
+            searchLocality: function() {
+                clearTimeout(this.typingTimer);
+                this.typingTimer = setTimeout( () => {
+                    this.clearDispositions(['street', 'streetId']);
+                    this.getDisposition({searchField: 'search-locality', searchString: this.card.locality, searchParams: this.card.districtId, disposition: 'localities'});
+                }, 500);
+            },
+
+            searchStreet: function() {
+                clearTimeout(this.typingTimer);
+                this.typingTimer = setTimeout( () => {
+                    this.getDisposition({searchField: 'search-street', searchString: this.card.street, searchParams: this.card.localityId, disposition: 'streets'});
+                }, 500);
+            },
+
             getDisposition: function (payload) {
                 this.$store.dispatch('app/patientCard/getDispositionsAction', payload);
             },
-            setDisposition: function(payload, idField, valueField) {
+            setDisposition: function(payload, idField, valueField, dispositionSection) {
                 payload.idFieldName = idField;
                 payload.valueFieldName = valueField;
+                payload.dispositionSection = dispositionSection;
                 this.$store.dispatch('app/patientCard/setDispositionAction', payload);
             },
             clearDispositions: function (payload) {
