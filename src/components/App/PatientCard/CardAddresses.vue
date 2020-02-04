@@ -103,8 +103,9 @@
             },
             searchRegion: function() {
                 clearTimeout(this.typingTimer);
-                this.clearDispositions(['district', 'locality', 'street', 'districtId', 'localityId', 'streetId']);
+                //this.clearDispositions(['district', 'locality', 'street', 'districtId', 'localityId', 'streetId']);
                 this.typingTimer = setTimeout( () => {
+                    this.clearDispositions(['district', 'locality', 'street', 'districtId', 'localityId', 'streetId']);
                     this.getDisposition({searchField: 'search-region', searchString: this.card.region, searchParams: ''});
                 }, 500);
             },
@@ -120,7 +121,7 @@
                 this.$store.dispatch('app/patientCard/clearDispositionsAction', payload);
             },
             clearNothing: function () {
-                document.querySelector('.search-result-container').innerHTML = '';
+                this.$store.dispatch('app/patientCard/clearNothingAction');
             }
         },
         data() {
