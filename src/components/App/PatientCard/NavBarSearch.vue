@@ -14,17 +14,22 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
     export default {
         name: "NavBarSearch",
         methods: {
+            ...mapActions('app/patientCard', [
+                'getCardAction',
+                'getCardsAction'
+            ]),
             getCards: function () {
                 if (this.search.searchString.length > 0) {
-                    this.$store.dispatch('app/patientCard/getCardsAction', this.search);
+                    this.getCardsAction(this.search);
                 }
             },
             getCard: function () {
                 if (this.search.searchString.length === 0){
-                    this.$store.dispatch('app/patientCard/getCardAction', this.$router.currentRoute.params['id']);
+                    this.getCardAction(this.$router.currentRoute.params['id'])
                 }
             }
         },

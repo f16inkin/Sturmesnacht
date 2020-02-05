@@ -120,7 +120,7 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import { mapState, mapActions } from 'vuex';
     import SectionHeaderControls from "./SectionHeaderControls"
     export default {
         name: "CardAddresses",
@@ -134,9 +134,17 @@
             })
         },
         methods: {
+            ...mapActions('app/patientCard', [
+                'getDispositionsAction',
+                'setDispositionAction',
+                'clearDispositionsAction',
+                'clearNothingAction'
+            ]),
+
             toggleInputs: function () {
                 this.disabledInput = !this.disabledInput;
             },
+
             searchRegion: function() {
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
@@ -169,19 +177,22 @@
             },
 
             getDisposition: function (payload) {
-                this.$store.dispatch('app/patientCard/getDispositionsAction', payload);
+                this.getDispositionsAction(payload);
             },
+
             setDisposition: function(payload, idField, valueField, dispositionSection) {
                 payload.idFieldName = idField;
                 payload.valueFieldName = valueField;
                 payload.dispositionSection = dispositionSection;
-                this.$store.dispatch('app/patientCard/setDispositionAction', payload);
+                this.setDispositionAction(payload);
             },
+
             clearDispositions: function (payload) {
-                this.$store.dispatch('app/patientCard/clearDispositionsAction', payload);
+                this.clearDispositionsAction(payload);
             },
+
             clearNothing: function () {
-                this.$store.dispatch('app/patientCard/clearNothingAction');
+                this.clearNothing();
             }
         },
         data() {

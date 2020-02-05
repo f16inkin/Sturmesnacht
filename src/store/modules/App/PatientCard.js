@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export default {
     namespaced: true,
+
     state:{
         card: {},
         cards: [],
@@ -14,8 +15,10 @@ export default {
             districts: [],
             localities: [],
             streets: []
-        }
+        },
+        insuranceCompanies: []
     },
+
     actions:{
         getCardAction: function({commit}, id){
             return axios.get(`${apiUrl}/app/patient-card/get/${id}`)
@@ -55,8 +58,25 @@ export default {
                 });
         },
 
+        getInsuranceCompaniesAction: function ({commit}, payload) {
+            return axios.get(
+                `${apiUrl}/app/patient-card/search-insurance-company`, {params: {searchString: payload.searchString}})
+                .then(function (response) {
+                    return response.data;
+                }).then(insuranceCompanies => {
+                    commit('GET_INSURANCE_COMPANIES', insuranceCompanies)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+
         setDispositionAction: function ({commit}, payload) {
             commit('SET_DISPOSITION', payload);
+        },
+
+        setInsuranceCompanyAction: function({commit}, payload){
+            commit('SET_INSURANCE_COMPANY', payload);
         },
 
         clearDispositionsAction: function ({commit}, payload) {
@@ -67,6 +87,7 @@ export default {
             commit('CLEAR_NOTHING');
         }
     },
+
     mutations:{
         /**
          * Поиск карты.
@@ -94,7 +115,7 @@ export default {
             state.isAllowButtons = false;
         },
         /**
-         * Получает диспозиции: регион, улица, населенный пункт, район.
+         * Получаю диспозиции: регион, улица, населенный пункт, район.
          * @param state
          * @param payload
          * @constructor
@@ -103,7 +124,16 @@ export default {
             state.dispositions[payload.disposition] = payload.dispositions;
         },
         /**
-         * Устанавливает диспозиции: регион, район, населенный пункт, улица.
+         * Получаю список страховых компаний
+         * @param state
+         * @param payload
+         * @constructor
+         */
+        GET_INSURANCE_COMPANIES(state, payload) {
+            state.insuranceCompanies = payload;
+        },
+        /**
+         * Устанавливаю диспозиции: регион, район, населенный пункт, улица.
          * @param state
          * @param disposition
          * @constructor
@@ -112,6 +142,17 @@ export default {
             state.card[disposition.idFieldName] = disposition.id;
             state.card[disposition.valueFieldName] = disposition.value;
             state.dispositions[disposition.dispositionSection] = [];
+        },
+        /**
+         * Устанавливаю значение выбранной страховой компании
+         * @param state
+         * @param insuranceCompany
+         * @constructor
+         */
+        SET_INSURANCE_COMPANY: function(state, insuranceCompany){
+            state.card.insuranceCompanyId = insuranceCompany.id;
+            state.card.insuranceCompany = insuranceCompany.value;
+            state.insuranceCompanies = [];
         },
         /**
          * Очищает поля для связанных диспозиций.
@@ -126,9 +167,9 @@ export default {
             })
         },
         /**
-         * Убирает состояние null из диспозиций, что дает возможность регулировать отображение сообщения Nothing в карте.
-         * Когда диспозиции стоят в null, в карте отображается сообщение nothing, но стоит присвоить пустой массив,
-         * сообщение сразу исчезает. Так работает v-if во vue.
+         * Убирает состояние null из объекта состояния, что дает возможность регулировать отображение сообщения Nothing
+         * в карте. Когда диспозиции стоят в null, в карте отображается сообщение nothing, но стоит присвоить пустой
+         * массив, сообщение сразу исчезает. Так работает v-if во vue.
          * @param state
          * @constructor
          */
@@ -137,14 +178,18 @@ export default {
             state.dispositions.districts = [];
             state.dispositions.localities = [];
             state.dispositions.streets = [];
+            state.insuranceCompanies = [];
         }
     },
+
     getters:{
+        /**
+         * Вывод количества карт найденныз для отображения на странице
+         * @param state
+         * @returns {number}
+         */
         cardsCountGetter(state){
             return state.cards.length || 0;
-        },
-        cardsGetter(state){
-            return state.cards;
         }
-    },
+    }
 }
