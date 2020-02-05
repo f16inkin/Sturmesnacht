@@ -12,28 +12,38 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex';
     export default {
         name: "SectionHeaderControls",
+
         methods: {
+            ...mapActions('app/patientCard', ['updateCardAction']),
+
             editCard: function () {
                 this.$emit('toggleInputs');
                 this.toggleButtons();
             },
+
             saveCard: function () {
                 this.$emit('toggleInputs');
                 this.toggleButtons();
                 //Очистить результаты поиска в инпутах, если таковые имеются
                 this.emptySearchResults();
                 //Далее тут запрос к Vuex для обновления карты
+                this.updateCardAction();
+
             },
+
             toggleButtons: function () {
                 this.editButton.show = !this.editButton.show;
                 this.saveButton.show = !this.saveButton.show;
             },
+
             emptySearchResults: function () {
                 document.querySelector('.search-result-container').innerHTML = '';
             }
         },
+
         data(){
             return {
                 editButton: {

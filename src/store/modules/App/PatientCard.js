@@ -20,6 +20,12 @@ export default {
     },
 
     actions:{
+        /**
+         * Получаю все данные карты
+         * @param commit
+         * @param id
+         * @returns {Promise<AxiosResponse<T> | never>}
+         */
         getCardAction: function({commit}, id){
             return axios.get(`${apiUrl}/app/patient-card/get/${id}`)
                 .then(function (response) {
@@ -31,7 +37,12 @@ export default {
                     console.log(error);
                 });
         },
-
+        /**
+         * Получаю карты по параметрам поиска
+         * @param commit
+         * @param search
+         * @returns {Promise<AxiosResponse<T> | never>}
+         */
         getCardsAction: function ({commit}, search) {
             return axios.post(`${apiUrl}/app/patient-card/search-cards`, JSON.stringify(search))
                 .then(function (response) {
@@ -44,7 +55,12 @@ export default {
                     console.log(error);
                 });
         },
-
+        /**
+         * Получаю регион, район, населенный пункт, улицу
+         * @param commit
+         * @param payload
+         * @returns {Promise<AxiosResponse<T> | never>}
+         */
         getDispositionsAction: function ({commit}, payload) {
             return axios.get(
                 `${apiUrl}/app/patient-card/${payload.searchField}`, {params: {searchString: payload.searchString, searchParams: payload.searchParams}})
@@ -57,7 +73,12 @@ export default {
                     console.log(error);
                 });
         },
-
+        /**
+         * Поиск страховой компании
+         * @param commit
+         * @param payload
+         * @returns {Promise<AxiosResponse<T> | never>}
+         */
         getInsuranceCompaniesAction: function ({commit}, payload) {
             return axios.get(
                 `${apiUrl}/app/patient-card/search-insurance-company`, {params: {searchString: payload.searchString}})
@@ -70,21 +91,48 @@ export default {
                     console.log(error);
                 });
         },
-
+        /**
+         * Выбрать регион, район, населенный пункт, улицу из списска выданных поиском
+         * @param commit
+         * @param payload
+         */
         setDispositionAction: function ({commit}, payload) {
             commit('SET_DISPOSITION', payload);
         },
-
+        /**
+         * Выбрать страховую компанию из списка выданных поиском
+         * @param commit
+         * @param payload
+         */
         setInsuranceCompanyAction: function({commit}, payload){
             commit('SET_INSURANCE_COMPANY', payload);
         },
-
+        /**
+         * Используется для зачистки диспозиций state.card, когда производится поиск вышестоящей диспозиции
+         * @param commit
+         * @param payload
+         */
         clearDispositionsAction: function ({commit}, payload) {
             commit('CLEAR_DISPOSITIONS', payload);
         },
-
+        /**
+         * Убрать табличку с сообщением о "ничего не найдено"
+         * @param commit
+         */
         clearNothingAction: function ({commit}) {
             commit('CLEAR_NOTHING');
+        },
+
+        updateCardAction: function ({commit, state}) {
+            return axios.put(`${apiUrl}/app/patient-card/update`, JSON.stringify(state.card))
+                .then(function (response) {
+                    return response.data.card_data;
+                }).then(data => {
+                    commit('GET_CARD', data)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     },
 

@@ -32,7 +32,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'clipboard']"/></div>
                 </div>
-                <input type="text" class="form-control" id="insurance-company" name="insurance-company" placeholder="Страховая компания" @keyup="getInsuranceCompany" v-model="card.insuranceCompany" :disabled="disabledInput">
+                <input type="text" class="form-control" id="insurance-company" name="insurance-company" placeholder="Страховая компания" @keyup="getInsuranceCompanies" v-model="card.insuranceCompany" :disabled="disabledInput">
                 <div class="search-result-area"  v-if="insuranceCompanies">
                     <div class="search-result-container">
                         <div  v-for="company in insuranceCompanies" :key="company.id" class="patient-card-search-result-line" @click="setInsuranceCompany(company)" >
@@ -94,37 +94,54 @@
     import SectionHeaderControls from "./SectionHeaderControls"
     export default {
         name: "CardDocuments",
+
         components: {
             SectionHeaderControls
         },
+
         computed: {
             ...mapState('app/patientCard', {
                 card: state => state.card,
                 insuranceCompanies: state => state.insuranceCompanies
             })
         },
+
         methods: {
             ...mapActions('app/patientCard', [
                 'getInsuranceCompaniesAction',
                 'setInsuranceCompanyAction',
                 'clearNothingAction'
                 ]),
+            /**
+             * Активировать / Деактивировать инпуты
+             */
             toggleInputs: function () {
                 this.disabledInput = !this.disabledInput;
             },
-            getInsuranceCompany: function() {
+            /**
+             * Поиск страховых компаний
+             */
+            getInsuranceCompanies: function() {
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
                     this.getInsuranceCompaniesAction({searchString: this.card.insuranceCompany});
                 }, 500);
             },
+            /**
+             * Выбрат ькомпанию из списка
+             * @param payload
+             */
             setInsuranceCompany: function(payload){
                 this.setInsuranceCompanyAction(payload);
             },
+            /**
+             * Очистить "Ничего не найдено"
+             */
             clearNothing: function () {
                 this.clearNothingAction();
             }
         },
+
         data() {
             return {
                 typingTimer: 0,

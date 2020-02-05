@@ -124,15 +124,18 @@
     import SectionHeaderControls from "./SectionHeaderControls"
     export default {
         name: "CardAddresses",
+
         components: {
             SectionHeaderControls
         },
+
         computed: {
             ...mapState('app/patientCard', {
                 card: state => state.card,
                 dispositions: state => state.dispositions
             })
         },
+
         methods: {
             ...mapActions('app/patientCard', [
                 'getDispositionsAction',
@@ -140,11 +143,15 @@
                 'clearDispositionsAction',
                 'clearNothingAction'
             ]),
-
+            /**
+             * Активировать / Деактивировать инпуты
+             */
             toggleInputs: function () {
                 this.disabledInput = !this.disabledInput;
             },
-
+            /**
+             * Поиск региона
+             */
             searchRegion: function() {
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
@@ -152,7 +159,9 @@
                     this.getDisposition({searchField: 'search-region', searchString: this.card.region, searchParams: '', disposition: 'regions'});
                 }, 500);
             },
-
+            /**
+             * Поиск района
+             */
             searchDistrict: function() {
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
@@ -160,7 +169,9 @@
                     this.getDisposition({searchField: 'search-district', searchString: this.card.district, searchParams: this.card.regionId, disposition: 'districts'});
                 }, 500);
             },
-
+            /**
+             * Поиск населенного пункта
+             */
             searchLocality: function() {
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
@@ -168,33 +179,50 @@
                     this.getDisposition({searchField: 'search-locality', searchString: this.card.locality, searchParams: this.card.districtId, disposition: 'localities'});
                 }, 500);
             },
-
+            /**
+             * поиск улицы
+             */
             searchStreet: function() {
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
                     this.getDisposition({searchField: 'search-street', searchString: this.card.street, searchParams: this.card.localityId, disposition: 'streets'});
                 }, 500);
             },
-
+            /**
+             * Получить искомую диспозицию по соответсвующим параметрам
+             * @param payload
+             */
             getDisposition: function (payload) {
                 this.getDispositionsAction(payload);
             },
-
+            /**
+             * Выбрать диспозицию и определить значение в нужно поле
+             * @param payload
+             * @param idField
+             * @param valueField
+             * @param dispositionSection
+             */
             setDisposition: function(payload, idField, valueField, dispositionSection) {
                 payload.idFieldName = idField;
                 payload.valueFieldName = valueField;
                 payload.dispositionSection = dispositionSection;
                 this.setDispositionAction(payload);
             },
-
+            /**
+             * Используется для зачистки диспозиций state.card, когда производится поиск вышестоящей диспозиции
+             * @param payload
+             */
             clearDispositions: function (payload) {
                 this.clearDispositionsAction(payload);
             },
-
+            /**
+             * Очистить "Ничего не найдено"
+             */
             clearNothing: function () {
                 this.clearNothing();
             }
         },
+
         data() {
             return {
                 typingTimer: 0,
