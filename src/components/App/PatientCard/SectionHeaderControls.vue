@@ -30,7 +30,7 @@
                 //Очистить результаты поиска в инпутах, если таковые имеются
                 this.emptySearchResults();
                 //Далее тут запрос к Vuex для обновления карты
-                this.updateCardAction();
+                this.updateCardAction(this.$router.currentRoute.params['id']);
 
             },
 

@@ -25,7 +25,7 @@
         },
         methods: {
             printTalon: function () {
-                let talonPath = `${apiUrl}/app/patient-card/talon/ambulatory/show/${this.$router.currentRoute.params['id']}`;
+                let talonPath = `${apiUrl}/app/patient-card/talons/${this.$router.currentRoute.params['id']}`;
                 window.open(talonPath, '_blank');
             }
         },

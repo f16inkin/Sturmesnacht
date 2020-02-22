@@ -27,7 +27,7 @@ export default {
          * @returns {Promise<AxiosResponse<T> | never>}
          */
         getCardAction: function({commit}, id){
-            return axios.get(`${apiUrl}/app/patient-card/get/${id}`)
+            return axios.get(`${apiUrl}/app/patient-cards/${id}`)
                 .then(function (response) {
                     return response.data.card_data;
                 }).then(data => {
@@ -44,7 +44,8 @@ export default {
          * @returns {Promise<AxiosResponse<T> | never>}
          */
         getCardsAction: function ({commit}, search) {
-            return axios.post(`${apiUrl}/app/patient-card/search-cards`, JSON.stringify(search))
+            //return axios.post(`${apiUrl}/app/patient-card/search-cards`, JSON.stringify(search))
+            return axios.get(`${apiUrl}/app/patient-cards`, {params: {searchString: search.searchString, selectedPage: search.selectedPage}})
                 .then(function (response) {
                     return response.data.cards;
                 })
@@ -123,8 +124,8 @@ export default {
             commit('CLEAR_NOTHING');
         },
 
-        updateCardAction: function ({commit, state}) {
-            return axios.put(`${apiUrl}/app/patient-card/update`, JSON.stringify(state.card))
+        updateCardAction: function ({commit, state}, id) {
+            return axios.put(`${apiUrl}/app/patient-cards/${id}`, JSON.stringify(state.card))
                 .then(function (response) {
                     return response.data.card_data;
                 }).then(data => {
