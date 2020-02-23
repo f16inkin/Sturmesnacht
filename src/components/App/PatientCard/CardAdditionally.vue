@@ -16,7 +16,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text"><font-awesome-icon  class="fa-for-menu" :icon="['fas', 'info-circle']"/></div>
                 </div>
-                <input type="text" class="form-control" id="workplace" name="workplace" placeholder="Место работы" v-model="card.workPlace" :disabled="disabledInput">
+                <input type="text" class="form-control" id="workplace" name="workplace" placeholder="Место работы" v-model="card.workplace" :disabled="disabledInput">
             </div>
             <label for="profession">Профессия:</label>
             <div class="input-group mb-2">

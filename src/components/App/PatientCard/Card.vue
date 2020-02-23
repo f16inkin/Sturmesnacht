@@ -81,4 +81,26 @@
         text-align: center;
         cursor: not-allowed;
     }
+    .patient-card-search-result-line{
+        width: 100%;
+        padding: 7px;
+    }
+    .patient-card-search-result-line:hover{
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+    .search-result-container{
+        width: 100%;
+        border: solid 1px;
+        border-color: #dce1e5;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+    .search-result-area {
+        width: 100%;
+    }
+    .red-asterisk{
+        color:red;
+    }
 </style>

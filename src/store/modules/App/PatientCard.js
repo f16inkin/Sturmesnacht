@@ -82,7 +82,7 @@ export default {
          */
         getInsuranceCompaniesAction: function ({commit}, payload) {
             return axios.get(
-                `${apiUrl}/app/patient-card/search-insurance-company`, {params: {searchString: payload.searchString}})
+                `${apiUrl}/app/patient-card/insurance-companies`, {params: {searchString: payload.searchString}})
                 .then(function (response) {
                     return response.data;
                 }).then(insuranceCompanies => {
@@ -128,9 +128,9 @@ export default {
             return axios.put(`${apiUrl}/app/patient-cards/${id}`, JSON.stringify(state.card))
                 .then(function (response) {
                     return response.data.card_data;
-                }).then(data => {
-                    commit('GET_CARD', data)
-                })
+                })//.then(data => {
+                    //commit('GET_CARD', data)
+                //})
                 .catch(function (error) {
                     console.log(error);
                 });
@@ -146,7 +146,9 @@ export default {
          */
         GET_CARD: function (state, card){
             state.card = card;
+            //state.card.fullName = card;
             state.card.passport = card.passportSerial + ' ' + card.passportNumber;
+            state.card.birthCertificate = card.birthCertificateSerial + ' ' + card.birthCertificateNumber;
             //Пока так.
             state.currentView = 'Card';
             state.cards = [];

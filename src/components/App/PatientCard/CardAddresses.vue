@@ -156,7 +156,7 @@
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
                     this.clearDispositions(['district', 'locality', 'street', 'regionId', 'districtId', 'localityId', 'streetId']);
-                    this.getDisposition({searchField: 'search-region', searchString: this.card.region, searchParams: '', disposition: 'regions'});
+                    this.getDisposition({searchField: 'regions', searchString: this.card.region, searchParams: '', disposition: 'regions'});
                 }, 500);
             },
             /**
@@ -166,7 +166,7 @@
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
                     this.clearDispositions(['locality', 'street', 'localityId', 'streetId']);
-                    this.getDisposition({searchField: 'search-district', searchString: this.card.district, searchParams: this.card.regionId, disposition: 'districts'});
+                    this.getDisposition({searchField: 'districts', searchString: this.card.district, searchParams: this.card.regionId, disposition: 'districts'});
                 }, 500);
             },
             /**
@@ -176,7 +176,7 @@
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
                     this.clearDispositions(['street', 'streetId']);
-                    this.getDisposition({searchField: 'search-locality', searchString: this.card.locality, searchParams: this.card.districtId, disposition: 'localities'});
+                    this.getDisposition({searchField: 'localities', searchString: this.card.locality, searchParams: this.card.districtId, disposition: 'localities'});
                 }, 500);
             },
             /**
@@ -185,7 +185,7 @@
             searchStreet: function() {
                 clearTimeout(this.typingTimer);
                 this.typingTimer = setTimeout( () => {
-                    this.getDisposition({searchField: 'search-street', searchString: this.card.street, searchParams: this.card.localityId, disposition: 'streets'});
+                    this.getDisposition({searchField: 'streets', searchString: this.card.street, searchParams: this.card.localityId, disposition: 'streets'});
                 }, 500);
             },
             /**
@@ -233,23 +233,5 @@
 </script>
 
 <style scoped>
-    .patient-card-search-result-line{
-        width: 100%;
-        padding: 7px;
-    }
-    .patient-card-search-result-line:hover{
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-    }
-    .search-result-container{
-        width: 100%;
-        border: solid 1px;
-        border-color: #dce1e5;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-    }
-    .search-result-area {
-        width: 100%;
-    }
+
 </style>

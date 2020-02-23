@@ -79,7 +79,7 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text"><font-awesome-icon class="fa-for-menu" :icon="['fas', 'id-card']"/></div>
                             </div>
-                            <textarea class="form-control" id="registry-office" name="registry-office" :disabled="disabledInput">{{card.registryOffice}}</textarea>
+                            <textarea class="form-control" id="registry-office" name="registry-office" v-model="card.registryOffice" :disabled="disabledInput">{{card.registryOffice}}</textarea>
                             <div id="fms-department-search-result-area" class="search-result-area"></div>
                         </div>
                     </b-tab>
@@ -152,25 +152,6 @@
 </script>
 
 <style scoped>
-    .patient-card-search-result-line{
-        width: 100%;
-        padding: 7px;
-    }
-    .patient-card-search-result-line:hover{
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-    }
-    .search-result-container{
-        width: 100%;
-        border: solid 1px;
-        border-color: #dce1e5;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-    }
-    .search-result-area {
-        width: 100%;
-    }
     /*.modal-mask {
         position: fixed;
         z-index: 9998;
